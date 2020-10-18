@@ -10,3 +10,6 @@
 
 - name: Install atom
   import_playbook: playbooks/atom-playbook.yml
+
+- name: Install kubectl
+  import_playbook: playbooks/kubectl-playbook.yml
