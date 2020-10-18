@@ -1,0 +1,29 @@
+---
+- name: playbook to install kubectl
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/kubectl.yml
+
+  tasks:
+    - name: Check current kubectl version
+      command: kubectl version --client
+      register: kubectl_vsn
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        kubectl_current_version: "{{ kubectl_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - kubectl_vsn.stdout is defined
+
+    - name: Install or upgrade kubectl
+      get_url:
+        url : "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: 'a+x'
+        force: yes
+      when: >
+        kubectl_current_version is not defined
+        or kubectl_current_version is version(kubectl_version, '!=')
