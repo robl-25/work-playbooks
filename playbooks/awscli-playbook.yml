@@ -1,0 +1,11 @@
+---
+- name: playbook to install docker
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/awscli.yml
+
+  tasks:
+    - name: installation | ensure awscli is installed
+      pip:
+        name: awscli

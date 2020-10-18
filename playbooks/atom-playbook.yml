@@ -1,0 +1,48 @@
+---
+- name: playbook to install atom
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/atom.yml
+
+  tasks:
+    - name: install dependencies
+      become: yes
+      apt:
+        name:
+          - apt-transport-https
+          - gnupg2
+        state: present
+
+    - name: install apt key
+      become: yes
+      apt_key:
+        url: 'https://packagecloud.io/AtomEditor/atom/gpgkey'
+        state: present
+
+    - name: install atom repo
+      become: yes
+      apt_repository:
+        repo: deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main
+        filename: atom
+        state: present
+
+    - name: install atom
+      become: yes
+      apt:
+        name: atom
+        state: present
+
+    - name: install packages
+      become: yes
+      become_user: '{{ ansible_user_id }}'
+      shell: |
+        set -euo pipefail
+        apm list --bare | grep -E '{{ item }}' &&
+        echo 'Already installed.' ||
+        apm install '{{ item }}'
+      args:
+        executable: /bin/bash
+      loop: '{{ atom_packages }}'
+      register: apm_result
+      changed_when: "'Already installed.' not in apm_result.stdout"

@@ -1,0 +1,66 @@
+---
+- name: playbook to install docker
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/docker.yml
+
+  tasks:
+    - name: Install required system packages
+      apt:
+        name:
+            - apt-transport-https
+            - ca-certificates
+            - curl
+            - gnupg2
+            - software-properties-common
+            - python3-pip
+            - gnupg-agent
+            - python3-setuptools
+        state: present
+        update_cache: no
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: '{{ docker_apt_gpg_key }}'
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: '{{ docker_apt_repository }}'
+        state: present
+        update_cache: yes
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: no
+
+    - name: Run and enable docker
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Create docker group
+      group:
+        name: docker
+        state: present
+
+    - name: Add a current user to docker group
+      user:
+        name: '{{ ansible_user_id }}'
+        groups: docker
+        append: yes
+
+    - name: Change docker directory ownership and permissions
+      file:
+        dest: '/home/{{ ansible_user_id }}/.docker'
+        owner: '{{ ansible_user_id }}'
+        mode: g+rwx
+        recurse: yes
