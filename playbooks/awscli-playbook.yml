@@ -1,5 +1,5 @@
 ---
-- name: playbook to install docker
+- name: playbook to install awscli
   hosts: localhost
   connection: local
   vars_files:

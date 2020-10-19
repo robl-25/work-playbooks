@@ -14,7 +14,7 @@
       check_mode: no
 
     - set_fact:
-        kubectl_current_version: "{{ kubectl_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+        kubectl_current_version: "{{ kubectl_vsn.stdout | regex_search('(v\\d+(\\.\\d+)+)') }}"
       when:
         - kubectl_vsn.stdout is defined
 
