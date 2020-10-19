@@ -19,3 +19,6 @@
 
 - name: Install firefox
   import_playbook: playbooks/firefox-playbook.yml
+
+- name: Install terraform
+  import_playbook: playbooks/terraform-playbook.yml

@@ -1,12 +1,13 @@
 Packages that needs to be installed:
-- Terraform and terraformation
 - Config panel
 - Add crtl+Alt+T for terminal
 - Zoom
 - Forticlient VPN
-- Discord
-- Spotify
 - Fuck (terminal command)
+
+Nice to have:
+- Spotify
+- Discord
 - Kubectx
 - Kubens
 - Kube
