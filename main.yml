@@ -22,3 +22,6 @@
 
 - name: Install terraform
   import_playbook: playbooks/terraform-playbook.yml
+
+- name: Install zoom
+  import_playbook: playbooks/zoom-playbook.yml
