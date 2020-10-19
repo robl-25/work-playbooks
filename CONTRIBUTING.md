@@ -1,5 +1,4 @@
 Packages that needs to be installed:
-- Firefox Developer Edition
 - Terraform and terraformation
 - Config panel
 - Add crtl+Alt+T for terminal
