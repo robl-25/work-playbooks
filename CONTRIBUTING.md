@@ -1,7 +1,6 @@
 Packages that needs to be installed:
 - Config panel
 - Add crtl+Alt+T for terminal
-- Zoom
 - Forticlient VPN
 - Fuck (terminal command)
 
