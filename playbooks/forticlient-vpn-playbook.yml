@@ -1,0 +1,34 @@
+---
+- name: playbook to install forticlient-vpn
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/forticlient-vpn.yml
+
+  tasks:
+    - name: Check forticlient current version
+      command: dpkg-query -W forticlient
+      register: forticlient_vsn
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        forticlient_current_version: "{{ forticlient_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - forticlient_vsn.stdout is defined
+
+    - name: Download forticlient-ssl
+      get_url:
+        url: '{{ forticlient_url }}'
+        dest: '{{ forticlient_deb_dest }}'
+      when: >
+        forticlient_current_version is not defined
+        or forticlient_current_version is version(forticlient_version, '<')
+
+    - name: Install forticlient
+      apt:
+        deb: '{{ forticlient_deb_dest }}'
+      when: >
+        forticlient_current_version is not defined
+        or forticlient_current_version is version(forticlient_version, '<')

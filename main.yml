@@ -25,3 +25,6 @@
 
 - name: Install zoom
   import_playbook: playbooks/zoom-playbook.yml
+
+- name: Install forticlient-vpn
+  import_playbook: playbooks/forticlient-vpn-playbook.yml
