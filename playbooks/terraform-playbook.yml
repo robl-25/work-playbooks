@@ -1,0 +1,24 @@
+---
+- name: playbook to install terraform
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/terraform.yml
+
+  tasks:
+    - name: Add terraform GPG apt key
+      apt_key:
+        url: '{{ terraform_apt_gpg_key }}'
+        state: present
+
+    - name: Add terraform Repository
+      apt_repository:
+        repo: '{{ terraform_apt_repository }}'
+        state: present
+        update_cache: yes
+
+    - name: Update apt and install terraform
+      apt:
+        name: terraform
+        state: latest
+        update_cache: no

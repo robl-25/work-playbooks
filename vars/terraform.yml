@@ -1,0 +1,4 @@
+---
+terraform_apt_gpg_key: https://apt.releases.hashicorp.com/gpg
+terraform_apt_arch: amd64
+terraform_apt_repository: 'deb [arch={{ terraform_apt_arch }}] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main'
