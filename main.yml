@@ -13,3 +13,6 @@
 
 - name: Install kubectl
   import_playbook: playbooks/kubectl-playbook.yml
+
+- name: Install helm
+  import_playbook: playbooks/helm-playbook.yml
