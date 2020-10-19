@@ -16,3 +16,6 @@
 
 - name: Install helm
   import_playbook: playbooks/helm-playbook.yml
+
+- name: Install firefox
+  import_playbook: playbooks/firefox-playbook.yml

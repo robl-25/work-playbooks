@@ -1,0 +1,7 @@
+---
+firefox_url: https://download.mozilla.org/?product=firefox-devedition-latest-ssl&os=linux64&lang=en-US
+firefox_home: '/home/{{ ansible_user_id }}/.firefox-dev'
+firefox_bin: '{{ firefox_home }}/firefox/firefox'
+firefox_image_path: 'firefox/browser/chrome/icons/default/default128.png'
+firefox_logo: '{{ firefox_home }}/{{ firefox_image_path }}'
+firefox_desktop_path: '/home/{{ ansible_user_id }}/.local/share/applications/firefox_dev.desktop'
