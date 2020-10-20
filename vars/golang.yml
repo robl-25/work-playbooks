@@ -1,0 +1,7 @@
+---
+backport_repository: deb http://deb.debian.org/debian buster-backports main
+golang_version: 1.14
+bashrc_path: /home/{{ ansible_user_id }}/.bashrc
+golang_env_vars:
+  - export GOROOT="/usr/lib/go-1.14"
+  - export PATH=$HOME/bin:$GOROOT/bin:$HOME/go/bin:$PATH

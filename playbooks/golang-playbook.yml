@@ -1,0 +1,39 @@
+---
+- name: playbook to install golang
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/golang.yml
+
+  tasks:
+    - name: Add Backport repository
+      become: yes
+      apt_repository:
+        repo: '{{ backport_repository }}'
+        state: present
+        update_cache: yes
+
+    - name: Install Golang
+      become: yes
+      apt:
+        name: 'golang-{{ golang_version }}'
+        default_release: buster-backports
+        update_cache: no
+
+    - name: Check if exist bash export
+      command: 'grep -F "GOROOT" {{ bashrc_path }}'
+      register: golang_vars
+
+    - set_fact:
+        golang_current_var: '{{ golang_vars.stdout }}'
+      when:
+        - golang_vars.stdout is defined
+
+    - name: Add golang vars
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ item }}'
+      loop: '{{ golang_env_vars }}'
+      when:
+        - golang_current_var is defined
+        - golang_current_var == ""
