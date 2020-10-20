@@ -27,12 +27,23 @@
       when:
         - kubectl_vsn.stdout is defined
 
+    - name: Add Kubernetes GPG apt key
+      become: yes
+      apt_key:
+        url: '{{ kubernetes_apt_key }}'
+        state: present
+
+    - name: Add Kubernetes Repository
+      become: yes
+      apt_repository:
+        repo: '{{ kubernetes_apt_repo }}'
+        state: present
+        update_cache: yes
+
     - name: Install or upgrade kubectl
       become: yes
-      get_url:
-        url : "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
-        dest: /usr/local/bin/kubectl
-        mode: 'a+x'
+      apt:
+        name: 'kubectl={{ kubectl_version }}'
         force: yes
       when: >
         kubectl_current_version is not defined
