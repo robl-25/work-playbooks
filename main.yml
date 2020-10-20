@@ -11,8 +11,8 @@
 - name: Install atom
   import_playbook: playbooks/atom-playbook.yml
 
-- name: Install kubectl
-  import_playbook: playbooks/kubectl-playbook.yml
+- name: Install kubernetes
+  import_playbook: playbooks/kubernetes-playbook.yml
 
 - name: Install helm
   import_playbook: playbooks/helm-playbook.yml
