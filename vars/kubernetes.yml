@@ -2,4 +2,3 @@
 kubernetes_apt_repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
 kubernetes_apt_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
 kubectl_version: 1.15.11-00
-minikube_url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
