@@ -1,0 +1,5 @@
+---
+current_username: terminator
+ansible_python_interpreter: /usr/bin/python3
+thefuck_command: eval $(thefuck --alias)
+bashrc_path: /home/{{ current_username }}/.bashrc
