@@ -1,5 +1,5 @@
 ---
-- name: playbook to install xfce4
+- name: playbook to configure xfce4-panel
   hosts: localhost
   connection: local
   vars_files:

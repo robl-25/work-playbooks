@@ -37,3 +37,6 @@
 
 - name: Configure xfce4-keyboard
   import_playbook: playbooks/xfce4-keyboard-playbook.yml
+
+- name: Install golang
+  import_playbook: playbooks/golang-playbook.yml
