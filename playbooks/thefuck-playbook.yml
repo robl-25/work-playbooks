@@ -35,4 +35,4 @@
         path: '{{ bashrc_path }}'
         line: '{{ thefuck_command }}'
       when:
-        - thefuck_current_alias == thefuck_command
+        - thefuck_current_alias != thefuck_command
