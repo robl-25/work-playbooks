@@ -1,0 +1,51 @@
+---
+- name: playbook to install xfce4
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/xfce4-panel.yml
+
+  tasks:
+    - name: Check panel output name
+      command: xfconf-query -c xfce4-panel -p /panels/panel-1/output-name -n
+      register: panel_output_name
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        panel_current_output_name: "{{ panel_output_name.stdout }}"
+      when:
+        - panel_output_name.stdout is defined
+
+    - name: Set panel output_name
+      command: 'xfconf-query -c xfce4-panel -p /panels/panel-1/output-name -n -t string -s {{ xfce4_panel_output_name }}'
+      when: >
+        panel_current_output_name is not defined
+        or panel_current_output_name != xfce4_panel_output_name
+
+    - name: Check panel mode
+      command: xfconf-query -c xfce4-panel -p /panels/panel-1/mode -n
+      register: panel_mode
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        panel_current_mode: "{{ panel_mode.stdout }}"
+      when:
+        - panel_mode.stdout is defined
+
+    - name: Set panel mode
+      command: 'xfconf-query -c xfce4-panel -p /panels/panel-1/mode -n -t string -s {{ xfce4_panel_mode }}'
+      when: >
+        panel_current_mode is not defined
+        or panel_current_mode != xfce4_panel_mode
+
+    - name: Restart xfce panel
+      command: xfce4-panel -r
+      when: >
+        panel_current_output_name is not defined
+        or panel_current_mode is not defined
+        or panel_current_output_name != xfce4_panel_output_name
+        or panel_current_mode != xfce4_panel_mode
