@@ -7,6 +7,7 @@
 
   tasks:
     - name: Install required system packages
+      become: yes
       apt:
         name:
             - apt-transport-https
@@ -21,23 +22,27 @@
         update_cache: no
 
     - name: Add Docker GPG apt Key
+      become: yes
       apt_key:
         url: '{{ docker_apt_gpg_key }}'
         state: present
 
     - name: Add Docker Repository
+      become: yes
       apt_repository:
         repo: '{{ docker_apt_repository }}'
         state: present
         update_cache: yes
 
     - name: Update apt and install docker-ce
+      become: yes
       apt:
         name: docker-ce
         state: latest
         update_cache: no
 
     - name: Run and enable docker
+      become: yes
       service:
         name: docker
         state: started
@@ -48,6 +53,7 @@
         name: docker
 
     - name: Create docker group
+      become: yes
       group:
         name: docker
         state: present

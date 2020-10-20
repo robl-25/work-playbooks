@@ -28,6 +28,7 @@
         or helm_current_version is version(helm_version, '!=')
 
     - name: Copy helm
+      become: yes
       copy:
         src: /tmp/linux-amd64/helm
         dest: /usr/local/bin/helm

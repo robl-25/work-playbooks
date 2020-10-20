@@ -7,6 +7,7 @@
 
   tasks:
     - name: Install required pakcages
+      become: yes
       apt:
         name:
           - libglib2.0-0
@@ -31,18 +32,21 @@
         update_cache: no
 
     - name: Check if zoom is installed
+      become: yes
       command: dpkg-query -W zoom
       register: zoom_check_deb
       failed_when: zoom_check_deb.rc > 1
       changed_when: zoom_check_deb.rc == 1
 
     - name: Download zoom
+      become: yes
       get_url:
         url: '{{ zoom_url }}'
         dest: '{{ zoom_deb_dest }}'
       when: zoom_check_deb.rc == 1
 
     - name: Install zoom
+      become: yes
       apt:
         deb: '{{ zoom_path }}'
       when: zoom_check_deb.rc == 1

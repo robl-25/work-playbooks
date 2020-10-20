@@ -7,17 +7,20 @@
 
   tasks:
     - name: Add terraform GPG apt key
+      become: yes
       apt_key:
         url: '{{ terraform_apt_gpg_key }}'
         state: present
 
     - name: Add terraform Repository
+      become: yes
       apt_repository:
         repo: '{{ terraform_apt_repository }}'
         state: present
         update_cache: yes
 
     - name: Update apt and install terraform
+      become: yes
       apt:
         name: terraform
         state: latest
