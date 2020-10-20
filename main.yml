@@ -31,3 +31,9 @@
 
 - name: Install thefuck
   import_playbook: playbooks/thefuck-playbook.yml
+
+- name: Configure xfce4-panel
+  import_playbook: playbooks/xfce4-panel-playbook.yml
+
+- name: Configure xfce4-keyboard
+  import_playbook: playbooks/xfce4-keyboard-playbook.yml

@@ -1,0 +1,11 @@
+---
+- name: playbook to install xfce4
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/xfce4-keyboard.yml
+
+  tasks:
+    - name: Create shortcuts
+      command: 'xfconf-query -c xfce4-keyboard-shortcuts -p {{ item.command }} -n -t string -s {{ item.action }}'
+      loop: '{{ shortcuts }}'

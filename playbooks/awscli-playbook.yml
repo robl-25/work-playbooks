@@ -7,5 +7,6 @@
 
   tasks:
     - name: installation | ensure awscli is installed
+      become: yes
       pip:
         name: awscli

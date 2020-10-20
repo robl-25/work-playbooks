@@ -26,6 +26,7 @@
       when: not stat_result.stat.exists
 
     - name: Create symlink
+      become: yes
       file:
         src: "{{ firefox_bin }}"
         dest: /usr/bin/firefox

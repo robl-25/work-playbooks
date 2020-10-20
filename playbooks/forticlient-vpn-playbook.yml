@@ -7,6 +7,7 @@
 
   tasks:
     - name: Check forticlient current version
+      become: yes
       command: dpkg-query -W forticlient
       register: forticlient_vsn
       changed_when: false
@@ -19,6 +20,7 @@
         - forticlient_vsn.stdout is defined
 
     - name: Download forticlient-ssl
+      become: yes
       get_url:
         url: '{{ forticlient_url }}'
         dest: '{{ forticlient_deb_dest }}'
@@ -27,6 +29,7 @@
         or forticlient_current_version is version(forticlient_version, '<')
 
     - name: Install forticlient
+      become: yes
       apt:
         deb: '{{ forticlient_deb_dest }}'
       when: >
