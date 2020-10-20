@@ -8,7 +8,10 @@
   tasks:
     - name: Install dependencies
       apt:
-        name: apt-transport-https
+        name:
+          - apt-transport-https
+          - gnupg2
+          - curl
         state: latest
         update_cache: no
 
@@ -24,16 +27,33 @@
       when:
         - kubectl_vsn.stdout is defined
 
+    - name: Add Kubernetes GPG apt key
+      become: yes
+      apt_key:
+        url: '{{ kubernetes_apt_key }}'
+        state: present
+
+    - name: Add Kubernetes Repository
+      become: yes
+      apt_repository:
+        repo: '{{ kubernetes_apt_repo }}'
+        state: present
+        update_cache: yes
+
     - name: Install or upgrade kubectl
       become: yes
-      get_url:
-        url : "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
-        dest: /usr/local/bin/kubectl
-        mode: 'a+x'
+      apt:
+        name: 'kubectl={{ kubectl_version }}'
         force: yes
       when: >
         kubectl_current_version is not defined
         or kubectl_current_version is version(kubectl_version, '!=')
+
+    - name: Mark to hold kubectl
+      become: yes
+      dpkg_selections:
+        name: kubectl
+        selection: hold
 
     - name: Install kubectx and kubens
       become: yes
@@ -42,26 +62,9 @@
         state: latest
         update_cache: no
 
-    - name: Check if minikube exist and is in the latest version
-      command: minikube update-check
-      register: minikube_vsn
-      changed_when: false
-      failed_when: false
-      check_mode: no
-
-    - set_fact:
-        minikube_current_version: "{{ minikube_vsn.stdout | regex_search('(CurrentVersion: v\\d+(\\.\\d+)+)') | regex_replace('CurrentVersion: ') }}"
-        minikube_latest_version: "{{ minikube_vsn.stdout | regex_search('(LatestVersion: v\\d+(\\.\\d+)+)') | regex_replace('LatestVersion: ') }}"
-      when:
-        - minikube_vsn.stdout is defined
-
     - name: Install or upgrade minikube
       become: yes
-      get_url:
-        url: '{{ minikube_url }}'
-        dest: /usr/local/bin/minikube
-        mode: '+x'
-        force: yes
-      when: >
-        minikube_current_version is not defined
-        or minikube_current_version != minikube_latest_version
+      apt:
+        name: minikube
+        state: latest
+        update_cache: no
