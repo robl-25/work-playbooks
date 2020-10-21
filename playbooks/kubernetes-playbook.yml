@@ -82,7 +82,7 @@
         minikube_latest_version: "{{ minikube_vsn.stdout | regex_search('(LatestVersion: v\\d+(\\.\\d+)+)') | regex_replace('LatestVersion: ') }}"
       when:
         - minikube_vsn.stdout is defined
-    
+
     - name: Install or upgrade minikube
       become: yes
       get_url:
