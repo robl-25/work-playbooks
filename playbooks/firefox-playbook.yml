@@ -7,11 +7,13 @@
 
   tasks:
     - name: Remove firefox esr
+      become: yes
       apt:
         name: firefox-esr
         state: absent
         
     - name: Auto remove unused packages
+      become: yes
       apt:
         autoremove: yes
         purge: yes
