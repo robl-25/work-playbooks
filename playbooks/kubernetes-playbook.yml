@@ -86,7 +86,6 @@
     - name: Install or upgrade minikube
       become: yes
       get_url:
-      apt:
         url: '{{ minikube_url }}'
         dest: /usr/local/bin/minikube
         mode: '+x'
