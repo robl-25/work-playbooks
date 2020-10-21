@@ -23,6 +23,9 @@
     - name: Check if exist bash export
       command: 'grep -F "GOROOT" {{ bashrc_path }}'
       register: golang_vars
+      changed_when: false
+      failed_when: false
+      check_mode: no
 
     - set_fact:
         golang_current_var: '{{ golang_vars.stdout }}'
