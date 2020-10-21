@@ -44,14 +44,19 @@
       file:
         path: '{{ user_desktop_icons_path }}'
         state: directory
+        
+    - name: Check if desktop icon exist
+      stat:
+        path: '{{ firefox_desktop_path }}'
+      register: firefox_desktop_icon
 
     - name: Create desktop icon
       template:
-        src: vars/firefox.desktop.j2
+        src: templates/firefox.desktop.j2
         dest: '{{ firefox_desktop_path }}'
         mode: 0644
-      when: not stat_result.stat.exists
+      when: not firefox_desktop_icon.stat.exists
 
     - name: Set default browser
-      command: 'update-alternatives --set x-www-browser {{ firefox_home }}/firefox'
+      command: 'xdg-settings set default-web-browser {{ firefox_desktop_path }}'
       when: not stat_result.stat.exists
