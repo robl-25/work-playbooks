@@ -10,7 +10,7 @@ First, install [ansible](https://docs.ansible.com/ansible/latest/installation_gu
 For default debian doesn't include your user in sudoers group. To include, first login as root. Then type `sudo usermod -aG sudo <username>`.
 
 ### Debian Repository
-If your instalation is old, you can just update the repositories to get new version of the packages. For new versions edit ´/etc/apt/sources.list´ with:
+If your instalation is old, you can just update the repositories to get new version of the packages. For new versions edit `/etc/apt/sources.list` with:
 ```
 deb http://deb.debian.org/debian/ testing main non-free contrib
 deb-src http://deb.debian.org/debian/ testing main non-free contrib
