@@ -26,6 +26,7 @@
         dest: '{{ forticlient_deb_dest }}'
       when: >
         forticlient_current_version is not defined
+        or forticlient_current_version == ""
         or forticlient_current_version is version(forticlient_version, '<')
 
     - name: Install forticlient
@@ -34,4 +35,5 @@
         deb: '{{ forticlient_deb_dest }}'
       when: >
         forticlient_current_version is not defined
+        or forticlient_current_version == ""
         or forticlient_current_version is version(forticlient_version, '<')
