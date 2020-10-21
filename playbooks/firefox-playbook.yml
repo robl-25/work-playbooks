@@ -52,11 +52,11 @@
 
     - name: Create desktop icon
       template:
-        src: templates/firefox.desktop.j2
+        src: ../templates/firefox.desktop.j2
         dest: '{{ firefox_desktop_path }}'
         mode: 0644
       when: not firefox_desktop_icon.stat.exists
 
     - name: Set default browser
-      command: 'xdg-settings set default-web-browser {{ firefox_desktop_path }}'
+      command: 'xdg-settings set default-web-browser firefox.desktop'
       when: not stat_result.stat.exists
