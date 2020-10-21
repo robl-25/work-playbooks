@@ -1,0 +1,3 @@
+---
+ssh_key_path: '/home/{{ ansible_user_id }}/.ssh/rsa_id'
+ssh_force_generate: False

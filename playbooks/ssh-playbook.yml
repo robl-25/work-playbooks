@@ -1,0 +1,30 @@
+---
+- name: playbook to install docker
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/ssh.yml
+
+  tasks:
+    - name: Check that the ssh keys exists
+      stat:
+        path: '{{ ssh_key_path }}'
+      register: stat_result
+
+    - name: Remove ssh existing keys if force
+      file:
+        state: absent
+        path: '{{ ssh_key_path }}'
+      when:
+        - ssh_force_generate
+
+    - name: Generate ssh keys
+      command: "ssh-keygen -f {{ ssh_key_path }} -t ecdsa -b 521 -N ''"
+      when: >
+        not stat_result.stat.exists
+        or ssh_force_generate
+
+    - name: Add private key to ssh-agent
+      command: 'ssh-add {{ ssh_key_path }}'
+      when:
+        - not stat_result.stat.exists
