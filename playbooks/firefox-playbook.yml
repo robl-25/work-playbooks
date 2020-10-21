@@ -24,6 +24,12 @@
         dest: '{{ firefox_home }}'
         remote_src: yes
       when: not stat_result.stat.exists
+      
+    - name: Delete firefox symlink if it exists
+      file:
+        path: /usr/bin/firefox
+        state: absent
+      when: not stat_result.stat.exists
 
     - name: Create symlink
       become: yes
