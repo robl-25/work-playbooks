@@ -24,6 +24,9 @@
     - name: Check if exist bash aliass
       command: 'grep -F "thefuck" {{ bashrc_path }}'
       register: thefuck_alias
+      changed_when: false
+      failed_when: false
+      check_mode: no
 
     - set_fact:
         thefuck_current_alias: '{{ thefuck_alias.stdout }}'
