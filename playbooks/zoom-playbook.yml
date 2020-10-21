@@ -48,5 +48,5 @@
     - name: Install zoom
       become: yes
       apt:
-        deb: '{{ zoom_path }}'
+        deb: '{{ zoom_deb_dest }}'
       when: zoom_check_deb.rc == 1
