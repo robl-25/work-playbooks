@@ -6,6 +6,13 @@
     - ../vars/forticlient-vpn.yml
 
   tasks:
+    - name: Install dependencies
+      become: yes
+      apt:
+        name: libappindicator1
+        state: present
+        update_cache: no
+
     - name: Check forticlient current version
       become: yes
       command: dpkg-query -W forticlient
