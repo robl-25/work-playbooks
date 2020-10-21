@@ -32,6 +32,11 @@
         dest: /usr/bin/firefox
         state: link
       when: not stat_result.stat.exists
+    
+    - name: Create desktop icons directory if does not exist
+      file:
+        path: '{{ user_desktop_icons_path }}'
+        state: directory
 
     - name: Create desktop icon
       template:
