@@ -22,3 +22,18 @@ deb-src http://security.debian.org/debian-security stable/updates main contrib n
 deb http://deb.debian.org/debian/ stable-updates main contrib non-free
 deb-src http://deb.debian.org/debian/ stable-updates main contrib non-free
 ```
+
+### Install git
+To install git use `sudo apt install git-all`
+
+### Install Ansible
+Add the following line to /etc/apt/sources.list:
+```
+deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main
+```
+Then run these commands:
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+sudo apt update
+sudo apt install ansible
+```
