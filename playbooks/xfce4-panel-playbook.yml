@@ -49,3 +49,21 @@
         or panel_current_mode is not defined
         or panel_current_output_name != xfce4_panel_output_name
         or panel_current_mode != xfce4_panel_mode
+        
+    - name: Verify current theme
+      command: xfconf-query -c xsettings -p /Net/ThemeName -n
+      register: panel_theme
+      changed_when: false
+      failed_when: false
+      check_mode: no
+      
+    - set_fact:
+        panel_current_theme: '{{ panel_theme.stdout }}'
+      when:
+        - panel_theme.stdout is defined
+        
+    - name: Set xfce theme
+      command: 'xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s {{ xfce4_panel_theme }}'
+      when: >
+        panel_current_theme is not defined
+        or panel_current_theme != xfce4_panel_theme
