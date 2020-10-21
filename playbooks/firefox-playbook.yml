@@ -6,6 +6,16 @@
     - ../vars/firefox.yml
 
   tasks:
+    - name: Remove firefox esr
+      apt:
+        name: firefox-esr
+        state: absent
+        
+    - name: Auto remove unused packages
+      apt:
+        autoremove: yes
+        purge: yes
+
     - name: Check if firefox file exist
       stat:
         path: '{{ firefox_home }}'
