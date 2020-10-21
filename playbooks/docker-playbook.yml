@@ -59,6 +59,7 @@
         state: present
 
     - name: Add a current user to docker group
+      become: yes
       user:
         name: '{{ ansible_user_id }}'
         groups: docker
