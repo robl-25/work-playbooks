@@ -28,4 +28,4 @@ To install git use `sudo apt install git-all`
 
 ### Install Ansible
 Install ansible under python3. More information look [here](https://docs.ansible.com/ansible/latest/reference_appendices/python_3_support.html).
-`pip3 install ansible`
+`sudo pip3 install ansible`
