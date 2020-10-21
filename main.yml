@@ -40,3 +40,6 @@
 
 - name: Install golang
   import_playbook: playbooks/golang-playbook.yml
+
+- name: Generate ssh keys
+  import_playbook: playbooks/ssh-playbook.yml
