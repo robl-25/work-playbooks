@@ -33,6 +33,11 @@
         name: atom
         state: present
 
+    - name: Install packages dependencies
+      pip:
+        name: python-language-server[all]
+        state: present
+
     - name: install packages
       become: yes
       become_user: '{{ ansible_user_id }}'
