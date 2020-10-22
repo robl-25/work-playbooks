@@ -1,0 +1,12 @@
+---
+- name: playbook to install arandr
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install arandr
+      become: yes
+      apt:
+        name: arandr
+        state: latest
+        update_cache: no

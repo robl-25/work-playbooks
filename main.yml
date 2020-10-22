@@ -43,3 +43,6 @@
 
 - name: Generate ssh keys
   import_playbook: playbooks/ssh-playbook.yml
+
+- name: Install arandr
+  import_playbook: playbooks/arandr-playbook.yml
