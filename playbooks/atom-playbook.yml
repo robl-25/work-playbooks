@@ -14,6 +14,13 @@
           - gnupg2
         state: present
 
+    - name: Create symlink to use python3
+      become: yes
+      file:
+        src: /usr/bin/python3
+        dest: /usr/bin/python
+        state: link
+
     - name: install apt key
       become: yes
       apt_key:
