@@ -3,3 +3,6 @@ kubernetes_apt_repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
 kubernetes_apt_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
 kubectl_version: 1.15.11-00
 minikube_url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+kubectx_last_version: v0.8.0
+kubectx_release_url: 'https://github.com/ahmetb/kubectx/releases/download/{{ kubectx_last_version }}'
+kubectx_last_version_command: git -c 'versionsort.suffix=-' ls-remote --exit-code --refs --sort='version:refname' --tags https://github.com/ahmetb/kubectx.git '*.*.*' | tail --lines=1 | cut --delimiter='/' --fields=3
