@@ -15,13 +15,6 @@
           - curl
         state: latest
         update_cache: no
-        
-    - name: Add stable repository
-      become: yes
-      apt_repository:
-        repo: deb http://ftp.br.debian.org/debian sid main
-        state: present
-        update_cache: yes
 
     - name: Check current kubectl version
       command: kubectl version --client
@@ -63,12 +56,28 @@
         name: kubectl
         selection: hold
 
-    - name: Install kubectx and kubens
+    - name: get last version of kubectx and kubens
+      shell: '{{ kubectx_last_version_command }}'
+      register: kubectx_git_last_tag
+
+    - set_fact:
+        kubectx_last_version: '{{ kubectx_git_last_tag.stdout }}'
+
+    - name: Install or upgrade Kubectx
       become: yes
-      apt:
-        name: kubectx
-        state: latest
-        update_cache: no
+      get_url:
+        url: '{{ kubectx_release_url }}/kubectx'
+        dest: /usr/local/bin/kubectx
+        mode: 'a+x'
+        force: yes
+
+    - name: Install or upgrade Kubens
+      become: yes
+      get_url:
+        url: '{{ kubectx_release_url }}/kubens'
+        dest: /usr/local/bin/kubens
+        mode: 'a+x'
+        force: yes
 
     - name: Check if minikube exist and is in the latest version
       command: minikube update-check
