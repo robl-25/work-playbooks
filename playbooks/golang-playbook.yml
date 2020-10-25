@@ -6,19 +6,26 @@
     - ../vars/golang.yml
 
   tasks:
-    - name: Add Backport repository
-      become: yes
-      apt_repository:
-        repo: '{{ backport_repository }}'
-        state: present
-        update_cache: yes
+    - name: Check go verison
+      command: go version
+      register: golang_vsn
+      changed_when: false
+      failed_when: false
 
-    - name: Install Golang
+    - set_fact:
+        golang_current_version: '{{ golang_vsn.stdout }}'
+      when:
+        - golang_vsn.stdout is defined
+
+    - name: Install golang
       become: yes
-      apt:
-        name: 'golang-{{ golang_version }}'
-        default_release: buster-backports
-        update_cache: no
+      unarchive:
+        src: '{{ golang_url }}'
+        dest: /usr/lib
+        remote_src: yes
+      when: >
+        golang_current_version is not defined
+        or golang_current_version != golang_version
 
     - name: Check if exist bash export
       command: 'grep -F "GOROOT" {{ bashrc_path }}'
