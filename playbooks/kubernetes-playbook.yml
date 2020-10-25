@@ -15,6 +15,13 @@
           - curl
         state: latest
         update_cache: no
+        
+    - name: Add stable repository
+      become: yes
+      apt_repository:
+        repo: deb http://ftp.br.debian.org/debian sid main
+        state: present
+        update_cache: yes
 
     - name: Check current kubectl version
       command: kubectl version --client
