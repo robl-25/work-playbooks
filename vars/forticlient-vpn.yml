@@ -1,4 +1,0 @@
----
-forticlient_version: 6.4.0.0851
-forticlient_url: 'https://filestore.fortinet.com/forticlient/downloads/FortiClientFullVPNInstaller_{{ forticlient_version }}.deb'
-forticlient_deb_dest: /tmp/forticlient-sslvpn_amd64.deb
