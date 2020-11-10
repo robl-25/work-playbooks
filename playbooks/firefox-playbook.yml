@@ -40,7 +40,7 @@
     - name: Delete firefox symlink if it exists
       become: yes
       file:
-        path: /usr/bin/firefox
+        path: /usr/bin/firefox-dev
         state: absent
       when: not stat_result.stat.exists
 
@@ -48,7 +48,7 @@
       become: yes
       file:
         src: "{{ firefox_bin }}"
-        dest: /usr/bin/firefox
+        dest: /usr/bin/firefox-dev
         state: link
       when: not stat_result.stat.exists
 
