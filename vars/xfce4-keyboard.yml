@@ -5,3 +5,9 @@ shortcuts:
   - { command: /xfwm4/custom/<Super>Left, action: tile_left_key }
   - { command: /xfwm4/custom/<Super>Right, action: tile_right_key }
   - { command: /xfwm4/custom/<Super>Up, action: tile_up_key }
+
+layout_configs:
+  - { conf: /Default/XkbDisable, value: 'false' }
+  - { conf: /Default/XkbLayout, value: 'br,us' }
+  - { conf: /Default/XkbOptions/Group, value: 'grp:alt_caps_toggle' }
+  - { conf: /Default/XkbVariant, value: ',intl' }

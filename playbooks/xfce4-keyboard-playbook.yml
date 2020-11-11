@@ -9,3 +9,7 @@
     - name: Create shortcuts
       command: 'xfconf-query -c xfce4-keyboard-shortcuts -p {{ item.command }} -n -t string -s {{ item.action }}'
       loop: '{{ shortcuts }}'
+
+    - name: Change keyboard layout
+      command: 'xfconf-query -c keyboard-layout -p {{ item.conf }} -n -t string -s {{ item.value }}'
+      loop: '{{ layout_configs }}'
