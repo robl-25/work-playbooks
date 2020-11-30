@@ -28,25 +28,44 @@
           - libsqlite3-0
           - libxcb-keysyms1
           - libxcb-xtest0
+          - libxkbcommon-x11-0
         state: present
         update_cache: no
-
-    - name: Check if zoom is installed
-      become: yes
-      command: dpkg-query -W zoom
-      register: zoom_check_deb
-      failed_when: zoom_check_deb.rc > 1
-      changed_when: zoom_check_deb.rc == 1
 
     - name: Download zoom
       become: yes
       get_url:
         url: '{{ zoom_url }}'
         dest: '{{ zoom_deb_dest }}'
-      when: zoom_check_deb.rc == 1
+
+    - name: Check zoom downloaded version
+      become: yes
+      command: 'dpkg --info {{ zoom_deb_path }}'
+      register: zoom_check_deb_version
+      failed_when: false
+      changed_when: false
+
+    - set_fact:
+        zoom_deb_version: "{{ zoom_check_deb_version.stdout | regex_search('(Version: \\d+(\\.\\d+)+)') }}"
+      when:
+        - zoom_check_deb_version.sdtout is defined
+
+    - name: Check installed zoom version
+      become: yes
+      command: dpkg -s zoom
+      register: zoom_check_installed_version
+      failed_when: false
+      changed_when: false
+
+    - set_fact:
+        zoom_installed_version: "{{ zoom_check_installed_version.stdout | regex_search('(Version: \\d+(\\.\\d+)+)') }}"
+      when:
+        - zoom_check_installed_version.sdtout is defined
 
     - name: Install zoom
       become: yes
       apt:
         deb: '{{ zoom_deb_path }}'
-      when: zoom_check_deb.rc == 1
+      when: >
+        zoom_installed_version is not defined
+        or zoom_installed_version is version(zoom_deb_version, '!=')
