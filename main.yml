@@ -1,4 +1,7 @@
 ---
+- name: Install git stuff
+  import_playbook: playbooks/git-playbook.yml
+
 - name: Install docker
   import_playbook: playbooks/docker-playbook.yml
 

@@ -1,0 +1,20 @@
+---
+- name: playbook to install git
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install git
+      become: yes
+      apt:
+        name: git
+        state: latest
+        update_cache: no
+
+    - name: Install git crypt
+      become: yes
+      apt:
+        name: git-crypt
+        state: latest
+        update_cache: no
+
