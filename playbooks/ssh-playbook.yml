@@ -19,7 +19,7 @@
         - ssh_force_generate
 
     - name: Generate ssh keys
-      command: "ssh-keygen -f {{ ssh_key_path }} -t ecdsa -b 521 -N ''"
+      command: "ssh-keygen -f {{ ssh_key_path }} -b 2048 -m 'RFC4716' -N ''"
       when: >
         not stat_result.stat.exists
         or ssh_force_generate
