@@ -2,10 +2,15 @@
 - name: playbook to install docker-compose
   hosts: localhost
   connection: local
-  vars_files:
-    - ../vars/docker-compose.yml
 
   tasks:
+    - name: install dependencies
+      become: yes
+      apt:
+        name:
+          - curl
+        state: latest
+
     - name: Check current docker-compose version
       command: docker-compose --version
       register: docker_compose_vsn
@@ -18,13 +23,27 @@
       when:
         - docker_compose_vsn.stdout is defined
 
+    - name: Get latest version
+      uri:
+        url: https://api.github.com/repos/docker/compose/releases/latest
+        method: GET
+        return_content: yes
+        status_code: 200
+        body_format: json
+      register: result
+
+    - set_fact:
+        docker_compose_latest_version: "{{ result.json.name }}"
+      when:
+        - result.json is defined
+
     - name: Install or upgrade docker-compose
       become: yes
       get_url:
-        url : "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+        url : "https://github.com/docker/compose/releases/download/{{ docker_compose_latest_version }}/docker-compose-Linux-x86_64"
         dest: /usr/local/bin/docker-compose
         mode: 'a+x'
         force: yes
       when: >
         docker_compose_current_version is not defined
-        or docker_compose_current_version is version(docker_compose_version, '<')
+        or docker_compose_current_version is version(docker_compose_latest_version, '<')

@@ -12,7 +12,7 @@
         name:
           - apt-transport-https
           - gnupg2
-        state: present
+        state: latest
 
     - name: Create symlink to use python3
       become: yes
@@ -38,12 +38,12 @@
       become: yes
       apt:
         name: atom
-        state: present
+        state: latest
 
     - name: Install packages dependencies
       pip:
         name: python-language-server[all]
-        state: present
+        state: latest
 
     - name: install packages
       become: yes
