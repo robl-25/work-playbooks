@@ -29,7 +29,7 @@
           - libxcb-keysyms1
           - libxcb-xtest0
           - libxkbcommon-x11-0
-        state: present
+        state: latest
         update_cache: no
 
     - name: Download zoom

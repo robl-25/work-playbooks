@@ -18,7 +18,7 @@
             - python3-pip
             - gnupg-agent
             - python3-setuptools
-        state: present
+        state: latest
         update_cache: no
 
     - name: Add Docker GPG apt Key
