@@ -4,13 +4,6 @@
   connection: local
 
   tasks:
-    - name: install dependencies
-      become: yes
-      apt:
-        name:
-          - curl
-        state: latest
-
     - name: Check current docker-compose version
       command: docker-compose --version
       register: docker_compose_vsn
