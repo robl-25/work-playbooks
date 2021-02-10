@@ -13,6 +13,7 @@
           - apt-transport-https
           - gnupg2
           - curl
+          - jq
         state: latest
         update_cache: no
 
