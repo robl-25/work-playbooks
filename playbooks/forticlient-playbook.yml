@@ -1,0 +1,53 @@
+---
+- name: playbook to install git
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/forticlient.yml
+
+  tasks:
+    - name: Installing vpn package
+      become: true
+      apt:
+        name: openfortivpn
+        state: latest
+
+    - name: Making sure vpn config directory exists
+      become: true
+      file:
+        path: "/etc/openfortivpn"
+        state: directory
+
+    - name: Installing configuration files
+      become: true
+      template:
+        src: "../templates/forticlient.conf"
+        dest: "/etc/openfortivpn/loft.conf"
+        owner: "root"
+        group: "root"
+        mode: 0600
+
+    # - name: Configuring vpn to start on boot
+    #   become: true
+    #   systemd:
+    #     name: openfortivpn@loft
+    #     enabled: true
+    #     state: started
+
+    # - name: Installing vpn checker script
+    #   copy:
+    #     src: "__vpn_up"
+    #     dest: "{{ ansible_user_dir }}/.local/bin/"
+    #     owner: "{{ ansible_user_id }}"
+    #     group: "{{ ansible_user_id }}"
+    #     mode: 0755
+
+    - name: Configuring cron to reconnect VPN in cases where it disconnects
+      become: true
+      cron:
+        job: "{{ ansible_user_dir }}/.local/bin/__vpn_up"
+        minute: "*/15"
+        name: "reconnect vpn"
+        state: present
+        user: root
+      when: with_cron

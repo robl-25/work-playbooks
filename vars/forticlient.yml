@@ -1,0 +1,6 @@
+---
+password: '{{ ansible_become_password }}'
+username: '{{ ansible_user_id }}'
+with_cron: false
+host: '{{ ansible_fortihost }}'
+cert: '{{ ansible_vpn_cert }}'

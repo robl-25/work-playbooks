@@ -46,3 +46,6 @@
 
 - name: Install arandr
   import_playbook: playbooks/arandr-playbook.yml
+
+- name: Install forticlient
+  import_playbook: playbooks/forticlient-playbook.yml
