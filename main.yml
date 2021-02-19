@@ -49,3 +49,6 @@
 
 - name: Install forticlient
   import_playbook: playbooks/forticlient-playbook.yml
+
+- name: Install discord
+  import_playbook: playbooks/discord-playbook.yml
