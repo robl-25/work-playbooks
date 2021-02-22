@@ -1,0 +1,30 @@
+---
+- name: playbook to install discord
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/discord.yml
+
+  tasks:
+    - name: Check if discord is installed
+      become: yes
+      command: dpkg -s discord
+      register: disc_check_installed_version
+      failed_when: false
+      changed_when: false
+
+    - set_fact:
+        disc_installed_version: "{{ disc_check_installed_version.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - disc_check_installed_version.sdtout is defined
+
+    - name: Download discord
+      get_url:
+        url: '{{ url }}'
+        dest: '{{ deb_full_dest }}'
+
+    - name: Install Discord
+      become: yes
+      apt:
+        deb: '{{ deb_path }}'
+      when: disc_installed_version is not defined

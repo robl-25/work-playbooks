@@ -1,0 +1,5 @@
+---
+url: https://discord.com/api/download?platform=linux&format=deb
+deb_dest: /tmp
+deb_full_dest: '{{ deb_dest }}/disc_amd64.deb'
+deb_path: '{{ deb_dest }}/disc_amd64.deb'
