@@ -1,0 +1,12 @@
+---
+- name: playbook to install steam installer
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install Steam installer
+      become: yes
+      apt:
+        name: steam-installer
+        state: latest
+        update_cache: no
