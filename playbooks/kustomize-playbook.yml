@@ -6,26 +6,40 @@
     - ../vars/kustomize.yml
 
   tasks:
-    - name: create download directory for kustomize installation
+    - name: Get latest version
+      uri:
+        url: https://api.github.com/repos/kubernetes-sigs/kustomize/releases
+        method: GET
+        return_content: yes
+        status_code: 200
+        body_format: json
+      register: result
+
+    - set_fact:
+        version: "{{ result.json[0].tag_name | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - result.json is defined
+
+    - name: Create download directory for kustomize installation
       file:
         state: directory
         mode: 'u=rwx,go=rx'
         dest: '{{ download_dir }}'
 
-    - name: download kustomize
+    - name: Download kustomize
       get_url:
         url: '{{ mirror }}/{{ redistribution_filename }}'
         dest: '{{ download_dir }}/{{ download_filename }}'
         force: no
         mode: 'u=rw,go=r'
 
-    - name: create the kustomize staging dir
+    - name: Create the kustomize staging dir
       file:
         state: directory
         mode: 'u=rwx,go=rx'
         dest: '{{ staging_dir }}'
 
-    - name: install unarchive module dependencies
+    - name: Install unarchive module dependencies
       become: yes
       apt:
         name:
@@ -33,7 +47,7 @@
           - unzip
         state: latest
 
-    - name: extract kustomize
+    - name: Extract kustomize
       unarchive:
         remote_src: yes
         src: '{{ download_dir }}/{{ download_filename }}'
@@ -41,13 +55,18 @@
         exclude: '{{ excluded_files }}'
         creates: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
 
-    - name: create the kustomize installation dir
+    - name: Clean unarchive file
+      file:
+        state: absent
+        path: '{{ download_dir }}/{{ download_filename }}'
+
+    - name: Create the kustomize installation dir
       become: yes
       file:
         state: directory
         dest: '{{ install_dir }}'
 
-    - name: install kustomize
+    - name: Install kustomize
       become: yes
       copy:
         src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
