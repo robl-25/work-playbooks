@@ -52,3 +52,6 @@
 
 - name: Install discord
   import_playbook: playbooks/discord-playbook.yml
+
+- name: Install kustomize
+  import_playbook: playbooks/kustomize-playbook.yml

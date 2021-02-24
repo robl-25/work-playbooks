@@ -1,0 +1,56 @@
+---
+- name: playbook to install discord
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/kustomize.yml
+
+  tasks:
+    - name: create download directory for kustomize installation
+      file:
+        state: directory
+        mode: 'u=rwx,go=rx'
+        dest: '{{ download_dir }}'
+
+    - name: download kustomize
+      get_url:
+        url: '{{ mirror }}/{{ redistribution_filename }}'
+        dest: '{{ download_dir }}/{{ download_filename }}'
+        force: no
+        mode: 'u=rw,go=r'
+
+    - name: create the kustomize staging dir
+      file:
+        state: directory
+        mode: 'u=rwx,go=rx'
+        dest: '{{ staging_dir }}'
+
+    - name: install unarchive module dependencies
+      become: yes
+      apt:
+        name:
+          - tar
+          - unzip
+        state: latest
+
+    - name: extract kustomize
+      unarchive:
+        remote_src: yes
+        src: '{{ download_dir }}/{{ download_filename }}'
+        dest: '{{ staging_dir }}'
+        exclude: '{{ excluded_files }}'
+        creates: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
+
+    - name: create the kustomize installation dir
+      become: yes
+      file:
+        state: directory
+        dest: '{{ install_dir }}'
+
+    - name: install kustomize
+      become: yes
+      copy:
+        src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
+        remote_src: yes
+        dest: '{{ install_dir }}/kustomize'
+        mode: 'u=rwx,go=rx'

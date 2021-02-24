@@ -1,0 +1,14 @@
+---
+download_dir: '/home/{{ ansible_user_id }}/.kustomize'
+version: '4.0.1'
+os: 'linux'
+architecture: amd64
+redistribution_filename: 'kustomize_v{{ version }}_{{ os }}_{{ architecture }}.tar.gz'
+download_filename: 'kustomize-v{{ version }}.tar.gz'
+staging_dir: '{{ download_dir }}/kustomize-v{{ version }}'
+redistribution_executable_filename: 'kustomize'
+install_dir: '/usr/local/bin'
+mirror: 'https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v{{ version }}'
+excluded_files:
+  - README.md
+  - LICENSE
