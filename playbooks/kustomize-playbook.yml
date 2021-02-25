@@ -23,9 +23,19 @@
         - result.json is defined
 
     - set_fact:
-        version: "{{ versions | sort(reverse=true) | first | regex_search('(\\d+(\\.\\d+)+)') }}"
+        latest_version: "{{ versions | sort(reverse=true) | first | regex_search('(\\d+(\\.\\d+)+)') }}"
       when:
         - versions is defined
+
+    - name: Get current version
+      command: kustomize version
+      register: current_version_vsn
+      failed_when: false
+
+    - set_fact:
+        current_version: "{{ current_version_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - current_version_vsn.stdout is defined
 
     - name: Create download directory for kustomize installation
       file:
@@ -39,6 +49,9 @@
         dest: '{{ download_dir }}/{{ download_filename }}'
         force: no
         mode: 'u=rw,go=r'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
 
     - name: Create the kustomize staging dir
       file:
@@ -61,6 +74,9 @@
         dest: '{{ staging_dir }}'
         exclude: '{{ excluded_files }}'
         creates: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
 
     - name: Clean unarchive file
       file:
@@ -80,3 +96,6 @@
         remote_src: yes
         dest: '{{ install_dir }}/kustomize'
         mode: 'u=rwx,go=rx'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')

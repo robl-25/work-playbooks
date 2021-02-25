@@ -2,12 +2,12 @@
 download_dir: '/home/{{ ansible_user_id }}/.kustomize'
 os: 'linux'
 architecture: amd64
-redistribution_filename: 'kustomize_v{{ version }}_{{ os }}_{{ architecture }}.tar.gz'
-download_filename: 'kustomize-v{{ version }}.tar.gz'
-staging_dir: '{{ download_dir }}/kustomize-v{{ version }}'
+redistribution_filename: 'kustomize_v{{ latest_version }}_{{ os }}_{{ architecture }}.tar.gz'
+download_filename: 'kustomize-v{{ latest_version }}.tar.gz'
+staging_dir: '{{ download_dir }}/kustomize-v{{ latest_version }}'
 redistribution_executable_filename: 'kustomize'
 install_dir: '/usr/local/bin'
-mirror: 'https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v{{ version }}'
+mirror: 'https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v{{ latest_version }}'
 excluded_files:
   - README.md
   - LICENSE
