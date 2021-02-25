@@ -16,9 +16,16 @@
       register: result
 
     - set_fact:
-        version: "{{ result.json[0].tag_name | regex_search('(\\d+(\\.\\d+)+)') }}"
+        versions: "{{ result.json | to_json | from_json | json_query(jmesquery) }}"
+      vars:
+        jmesquery: "[? starts_with(tag_name, 'kustomize/')].tag_name"
       when:
         - result.json is defined
+
+    - set_fact:
+        version: "{{ versions | sort(reverse=true) | first | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - versions is defined
 
     - name: Create download directory for kustomize installation
       file:
