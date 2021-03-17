@@ -1,5 +1,5 @@
 ---
-- name: playbook to install discord
+- name: playbook to install kustomize
   hosts: localhost
   connection: local
   vars_files:
