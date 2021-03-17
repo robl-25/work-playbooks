@@ -55,3 +55,6 @@
 
 - name: Install kustomize
   import_playbook: playbooks/kustomize-playbook.yml
+
+- name: Install istioctl
+  import_playbook: playbooks/istioctl-playbook.yml
