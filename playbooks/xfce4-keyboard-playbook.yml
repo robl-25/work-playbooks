@@ -6,10 +6,17 @@
     - ../vars/xfce4-keyboard.yml
 
   tasks:
+    - set_fact:
+        desktop_env: "{{ lookup('env', 'XDG_CURRENT_DESKTOP').split(':')[1] | lower }}"
+
     - name: Create shortcuts
       command: 'xfconf-query -c xfce4-keyboard-shortcuts -p {{ item.command }} -n -t string -s {{ item.action }}'
       loop: '{{ shortcuts }}'
+      when:
+        - desktop_env in 'xfce'
 
     - name: Change keyboard layout
       command: 'xfconf-query -c keyboard-layout -p {{ item.conf }} -n -t string -s {{ item.value }}'
       loop: '{{ layout_configs }}'
+      when:
+        - desktop_env in 'xfce'

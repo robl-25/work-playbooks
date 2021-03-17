@@ -6,23 +6,32 @@
     - ../vars/xfce4-panel.yml
 
   tasks:
+    - set_fact:
+        desktop_env: "{{ lookup('env', 'XDG_CURRENT_DESKTOP').split(':')[1] | lower }}"
+
     - name: Check panel output name
       command: xfconf-query -c xfce4-panel -p /panels/panel-1/output-name -n
       register: panel_output_name
       changed_when: false
       failed_when: false
       check_mode: no
+      when:
+        - desktop_env in 'xfce'
 
     - set_fact:
         panel_current_output_name: "{{ panel_output_name.stdout }}"
       when:
         - panel_output_name.stdout is defined
+        - desktop_env in 'xfce'
 
     - name: Set panel output_name
       command: 'xfconf-query -c xfce4-panel -p /panels/panel-1/output-name -n -t string -s {{ xfce4_panel_output_name }}'
       when: >
-        panel_current_output_name is not defined
-        or panel_current_output_name != xfce4_panel_output_name
+        (
+          panel_current_output_name is not defined
+          or panel_current_output_name != xfce4_panel_output_name
+        )
+        and desktop_env in 'xfce'
 
     - name: Check panel mode
       command: xfconf-query -c xfce4-panel -p /panels/panel-1/mode -n
@@ -30,40 +39,55 @@
       changed_when: false
       failed_when: false
       check_mode: no
+      when:
+        - desktop_env in 'xfce'
 
     - set_fact:
         panel_current_mode: "{{ panel_mode.stdout }}"
       when:
         - panel_mode.stdout is defined
+        - desktop_env in 'xfce'
 
     - name: Set panel mode
       command: 'xfconf-query -c xfce4-panel -p /panels/panel-1/mode -n -t string -s {{ xfce4_panel_mode }}'
       when: >
-        panel_current_mode is not defined
-        or panel_current_mode != xfce4_panel_mode
+        (
+          panel_current_mode is not defined
+          or panel_current_mode != xfce4_panel_mode
+        )
+        and desktop_env in 'xfce'
 
     - name: Restart xfce panel
       command: xfce4-panel -r
       when: >
-        panel_current_output_name is not defined
-        or panel_current_mode is not defined
-        or panel_current_output_name != xfce4_panel_output_name
-        or panel_current_mode != xfce4_panel_mode
-        
+        (
+          panel_current_output_name is not defined
+          or panel_current_mode is not defined
+          or panel_current_output_name != xfce4_panel_output_name
+          or panel_current_mode != xfce4_panel_mode
+        )
+        and desktop_env in 'xfce'
+
     - name: Verify current theme
       command: xfconf-query -c xsettings -p /Net/ThemeName -n
       register: panel_theme
       changed_when: false
       failed_when: false
       check_mode: no
-      
+      when:
+        - desktop_env in 'xfce'
+
     - set_fact:
         panel_current_theme: '{{ panel_theme.stdout }}'
       when:
         - panel_theme.stdout is defined
-        
+        - desktop_env in 'xfce'
+
     - name: Set xfce theme
       command: 'xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s {{ xfce4_panel_theme }}'
       when: >
-        panel_current_theme is not defined
-        or panel_current_theme != xfce4_panel_theme
+        (
+          panel_current_theme is not defined
+          or panel_current_theme != xfce4_panel_theme
+        )
+        and desktop_env in 'xfce'
