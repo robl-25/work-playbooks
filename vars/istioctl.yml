@@ -1,0 +1,13 @@
+---
+download_dir: '/home/{{ ansible_user_id }}/.istioctl'
+os: 'linux'
+architecture: amd64
+mirror: 'https://github.com/istio/istio/releases/download/{{ latest_version }}'
+redistribution_filename: 'istioctl-{{ latest_version }}-{{ os }}-{{ architecture }}.tar.gz'
+download_filename: 'istioctl-{{ latest_version }}.tar.gz'
+staging_dir: '{{ download_dir }}/istioctl-{{ latest_version }}'
+redistribution_executable_filename: 'istioctl'
+install_dir: '/usr/local/bin'
+excluded_files:
+  - README.md
+  - LICENSE

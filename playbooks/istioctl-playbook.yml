@@ -1,0 +1,99 @@
+---
+- name: playbook to install istioctl
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/istioctl.yml
+
+  tasks:
+    - name: Get latest version
+      uri:
+        url: https://api.github.com/repos/istio/istio/releases
+        method: GET
+        return_content: yes
+        status_code: 200
+        body_format: json
+      register: result
+      when:
+        - not desired_version is defined
+
+    - set_fact:
+        versions: "{{ result.json | to_json | from_json | json_query(jmesquery) }}"
+      vars:
+        jmesquery: "[*].tag_name"
+      when:
+        - result.json is defined
+        - not desired_version is defined
+
+    - set_fact:
+        latest_version: "{{ versions | sort(reverse=true) | first | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - versions is defined
+        - not desired_version is defined
+
+    - set_fact:
+        latest_version: "{{ desired_version }}"
+      when:
+        - desired_version is defined
+
+    - name: Get current version
+      command: istioctl version
+      register: current_vsn
+      failed_when: false
+
+    - set_fact:
+        current_version: "{{ current_version_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - current_version_vsn.stdout is defined
+
+    - name: Create download directory for istioctl installation
+      file:
+        state: directory
+        mode: 'u=rwx,go=rx'
+        dest: '{{ download_dir }}'
+
+    - name: Download istioctl
+      get_url:
+        url: '{{ mirror }}/{{ redistribution_filename }}'
+        dest: '{{ download_dir }}/{{ download_filename }}'
+        force: no
+        mode: 'u=rw,go=r'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
+
+    - name: Create the istioctl staging dir
+      file:
+        state: directory
+        mode: 'u=rwx,go=rx'
+        dest: '{{ staging_dir }}'
+
+    - name: Install unarchive module dependencies
+      become: yes
+      apt:
+        name:
+          - tar
+          - unzip
+        state: latest
+
+    - name: Extract istioctl
+      unarchive:
+        remote_src: yes
+        src: '{{ download_dir }}/{{ download_filename }}'
+        dest: '{{ staging_dir }}'
+        exclude: '{{ excluded_files }}'
+        creates: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
+
+    - name: Install istioctl
+      become: yes
+      copy:
+        src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
+        remote_src: yes
+        dest: '{{ install_dir }}/istioctl'
+        mode: 'u=rwx,go=rx'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
