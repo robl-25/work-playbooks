@@ -1,0 +1,14 @@
+---
+- name: playbook to install nodejs
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install nodejs and npm
+      become: yes
+      apt:
+        name:
+          - nodejs
+          - npm
+        state: latest
+        update_cache: no

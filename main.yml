@@ -58,3 +58,6 @@
 
 - name: Install istioctl
   import_playbook: playbooks/istioctl-playbook.yml
+
+- name: Install nodejs
+  import_playbook: playbooks/nodejs-playbook.yml
