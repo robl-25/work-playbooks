@@ -26,21 +26,9 @@
         owner: "root"
         group: "root"
         mode: 0600
-
-    # - name: Configuring vpn to start on boot
-    #   become: true
-    #   systemd:
-    #     name: openfortivpn@loft
-    #     enabled: true
-    #     state: started
-
-    # - name: Installing vpn checker script
-    #   copy:
-    #     src: "__vpn_up"
-    #     dest: "{{ ansible_user_dir }}/.local/bin/"
-    #     owner: "{{ ansible_user_id }}"
-    #     group: "{{ ansible_user_id }}"
-    #     mode: 0755
+      when:
+        - ansible_fortihost is defined
+        - ansible_forticert is defined
 
     - name: Configuring cron to reconnect VPN in cases where it disconnects
       become: true
@@ -50,4 +38,7 @@
         name: "reconnect vpn"
         state: present
         user: root
-      when: with_cron
+      when:
+        - with_cron
+        - ansible_fortihost is defined
+        - ansible_forticert is defined
