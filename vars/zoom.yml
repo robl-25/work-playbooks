@@ -1,4 +1,2 @@
 ---
 zoom_url: https://zoom.us/client/latest/zoom_amd64.deb
-zoom_deb_dest: /tmp
-zoom_deb_path: '{{ zoom_deb_dest }}/zoom_amd64.deb'
