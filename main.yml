@@ -61,3 +61,6 @@
 
 - name: Install nodejs
   import_playbook: playbooks/nodejs-playbook.yml
+
+- name: Install vlc
+  import_playbook: playbooks/vlc-playbook.yml

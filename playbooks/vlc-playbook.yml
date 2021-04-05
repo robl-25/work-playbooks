@@ -1,0 +1,12 @@
+---
+- name: playbook to install vlc
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install latest version of vlc
+      become: yes
+      apt:
+        name: vlc
+        state: latest
+        update_cache: no
