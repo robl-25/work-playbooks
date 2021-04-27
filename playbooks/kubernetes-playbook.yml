@@ -42,11 +42,18 @@
         state: present
         update_cache: yes
 
+    - name: Mark to hold kubectl
+      become: yes
+      dpkg_selections:
+        name: kubectl
+        selection: purge
+      when:
+        - kubectl_current_version is defined
+
     - name: Install or upgrade kubectl
       become: yes
       apt:
         name: 'kubectl={{ kubectl_version }}'
-        force: yes
       when: >
         kubectl_current_version is not defined
         or kubectl_current_version != kubectl_version
