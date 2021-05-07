@@ -1,0 +1,27 @@
+---
+- name: playbook to install spotify
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/spotify.yml
+
+  tasks:
+    - name: Add package GPG apt key
+      become: yes
+      apt_key:
+        url: "{{ gpg_key }}"
+        state: present
+
+    - name: Add repository
+      become: yes
+      apt_repository:
+        repo: "{{ repository }}"
+        state: present
+        update_cache: yes
+
+    - name: Install client
+      become: yes
+      apt:
+        name: spotify-client
+        state: latest
+        update_cache: no
