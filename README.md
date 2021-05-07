@@ -3,10 +3,14 @@ Playbooks to install packages for work
 
 ## How to use
 First, install [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) in your machine. Then, run
-`ansible-playbook main.yml -e ansible_become_password=<YOUR_PASSWORD> -e ansible_fortihost=<FORTICLIENT_HOST> -e ansible_forticert=<YOUR_VPN_CERTIFICATE>`.
+`ansible-playbook main.yml [variables]`.
 
-Obs.: `ansible_fortihost` and `ansible_cert` are variables used in forticlient-playbook,
-if you won't use this playbook, you don't need to use this variables.
+### Variables
+For each variable use this format `-e name=value`. Available variables are:
+- ansible_become_password: sudo password. Required.
+- ansible_fortihost: host used in forticlient. Optional. If not passed forticlient won't be configured and this service can have problems to work.
+- ansible_cert: certificate used in forticlient connection. Optional. If not passed forticlient won't be configured and this service can have problems to work.
+- ansible_crowdstrike_cid: cid used in crowdstrike. Optional. If not passed the cid won't be configured and this service can have problems to work.
 
 ## For new systems
 ### Sudoers Group

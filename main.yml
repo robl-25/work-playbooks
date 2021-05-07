@@ -64,3 +64,6 @@
 
 - name: Install vlc
   import_playbook: playbooks/vlc-playbook.yml
+
+- name: Install crowdstrike
+  import_playbook: playbooks/crowdstrike-playbook.yml
