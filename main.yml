@@ -67,3 +67,6 @@
 
 - name: Install crowdstrike
   import_playbook: playbooks/crowdstrike-playbook.yml
+
+- name: Install spotify
+  import_playbook: playbooks/spotify-playbook.yml

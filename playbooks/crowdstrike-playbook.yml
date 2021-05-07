@@ -33,3 +33,4 @@
       ansible.builtin.service:
         name: falcon-sensor
         state: started
+        enabled: true
