@@ -1,0 +1,5 @@
+---
+gdown_url: https://raw.githubusercontent.com/circulosmeos/gdown.pl/master/gdown.pl
+gdown_path: /usr/local/bin/gdown
+url: https://drive.google.com/uc?export=download&confirm=_HxH&id=17BikyhxQsV55mCFpYgyd7OXTEDxKRdUW
+deb_path: '/tmp/crowdstrike.deb'

@@ -1,0 +1,35 @@
+---
+- name: playbook to install crowdstrike
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/crowdstrike.yml
+
+  tasks:
+    - name: Download gdown to get google drive file
+      become: yes
+      get_url:
+        url: "{{ gdown_url }}"
+        dest: "{{ gdown_path }}"
+        mode: 0755
+
+    - name: Download package
+      command: "{{ gdown_path }} {{ url }} {{ deb_path }}"
+      args:
+        creates: "{{ deb_path }}"
+
+    - name: Install package
+      become: yes
+      apt:
+        deb: "{{ deb_path }}"
+
+    - name: Set CID
+      become: yes
+      command: '/opt/CrowdStrike/falconctl -s -f --cid={{ ansible_crowdstrike_cid }}'
+      when: ansible_crowdstrike_cid is defined
+
+    - name: Start service
+      become: yes
+      ansible.builtin.service:
+        name: falcon-sensor
+        state: started
