@@ -70,3 +70,6 @@
 
 - name: Install spotify
   import_playbook: playbooks/spotify-playbook.yml
+
+- name: Install elixir
+  import_playbook: playbooks/elixir-playbook.yml

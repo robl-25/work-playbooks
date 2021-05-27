@@ -1,0 +1,11 @@
+---
+- name: playbook to install elixir
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install Elixir
+      become: yes
+      apt:
+        name: elixir
+        state: latest
