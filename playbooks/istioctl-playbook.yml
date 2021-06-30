@@ -90,8 +90,8 @@
     - name: Install istioctl
       become: yes
       copy:
-        src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
         remote_src: yes
+        src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
         dest: '{{ install_dir }}/istioctl'
         mode: 'u=rwx,go=rx'
       when: >

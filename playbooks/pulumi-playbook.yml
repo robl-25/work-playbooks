@@ -1,0 +1,99 @@
+---
+- name: playbook to install pulumi
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/pulumi.yml
+
+  tasks:
+    - name: Get latest version
+      uri:
+        url: https://www.pulumi.com/latest-version
+        method: GET
+        return_content: yes
+        status_code: 200
+        body_format: raw
+      register: result
+      when:
+        - not desired_version is defined
+
+    - set_fact:
+        latest_version: "{{ result.content }}"
+      when:
+        - result is defined
+
+    - set_fact:
+        latest_version: "{{ desired_version }}"
+      when:
+        - desired_version is defined
+
+    - name: Get current version
+      command: pulumi version
+      register: current_vsn
+      failed_when: false
+
+    - set_fact:
+        current_version: "{{ current_version_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - current_version_vsn.stdout is defined
+
+    - name: Download pulumi
+      get_url:
+        url: '{{ mirror }}/{{ redistribution_filename }}'
+        dest: '{{ download_dir }}/{{ download_filename }}'
+        force: no
+        mode: 'u=rw,go=r'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
+
+    - name: Create download directory installation
+      file:
+        state: '{{ item }}'
+        dest: '{{ local_dir }}'
+      with_items:
+        - absent
+        - directory
+
+    - name: Extract pulumi files
+      unarchive:
+        remote_src: yes
+        src: '{{ download_dir }}/{{ download_filename }}'
+        dest: '{{ download_dir }}'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
+
+    - name: Copy files to local dir
+      copy:
+        remote_src: yes
+        src: '{{ download_dir }}/pulumi/'
+        dest: '{{ local_dir }}'
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
+
+    - name: Fix pulumi scripts permissions
+      file:
+        path: '{{ local_dir }}'
+        recurse: yes
+        mode: 'u=rwx,go=rx'
+
+    - name: Check if exist bash aliass
+      command: 'grep -F "pulumi" {{ bashrc_path }}'
+      register: pulumi_alias
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        pulumi_current_alias: '{{ pulumi_alias.stdout }}'
+      when:
+        - pulumi_alias.stdout is defined
+
+    - name: Add pulumi alias
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ pulumi_command }}'
+      when:
+        - pulumi_current_alias != pulumi_command

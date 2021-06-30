@@ -1,0 +1,10 @@
+---
+os: linux
+arch: x64
+mirror: 'https://get.pulumi.com/releases/sdk'
+redistribution_filename: 'pulumi-v{{ latest_version }}-{{ os }}-{{ arch }}.tar.gz'
+local_dir: '/home/{{ ansible_user_id }}/.pulumi/bin'
+download_dir: '/tmp'
+download_filename: 'pulumi-{{ latest_version }}.tar.gz'
+pulumi_command: export PATH=$HOME/.pulumi/bin:$PATH
+bashrc_path: /home/{{ ansible_user_id }}/.bashrc

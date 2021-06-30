@@ -73,3 +73,6 @@
 
 - name: Install elixir
   import_playbook: playbooks/elixir-playbook.yml
+
+- name: Install pulumi
+  import_playbook: playbooks/pulumi-playbook.yml
