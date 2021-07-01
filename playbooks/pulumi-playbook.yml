@@ -54,6 +54,9 @@
       with_items:
         - absent
         - directory
+      when: >
+        current_version is not defined
+        or current_version is version(latest_version, '<')
 
     - name: Extract pulumi files
       unarchive:
