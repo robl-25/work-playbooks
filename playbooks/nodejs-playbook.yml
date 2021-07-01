@@ -4,11 +4,31 @@
   connection: local
 
   tasks:
+    - name: Install requirements
+      become: yes
+      apt:
+        name:
+          - apt-transport-https
+          - lsb-release
+          - curl
+          - gnupg
+        state: latest
+        update_cache: no
+
+    - name: Download node install script
+      get_url:
+        url: https://deb.nodesource.com/setup_current.x
+        dest: /tmp
+        mode: 'u=rw,go=r'
+
+    - name: Execute script
+      become: yes
+      shell: bash /tmp/setup_current.x
+
     - name: Install nodejs and npm
       become: yes
       apt:
         name:
           - nodejs
-          - npm
         state: latest
         update_cache: no
