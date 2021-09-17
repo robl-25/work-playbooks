@@ -8,7 +8,7 @@
   tasks:
     - name: Get latest version
       uri:
-        url: https://api.github.com/repos/istio/istio/releases
+        url: https://api.github.com/repos/istio/istio/releases/latest
         method: GET
         return_content: yes
         status_code: 200
@@ -18,17 +18,9 @@
         - not desired_version is defined
 
     - set_fact:
-        versions: "{{ result.json | to_json | from_json | json_query(jmesquery) }}"
-      vars:
-        jmesquery: "[*].tag_name"
+        latest_version: "{{ result.json.tag_name }}"
       when:
         - result.json is defined
-        - not desired_version is defined
-
-    - set_fact:
-        latest_version: "{{ versions | sort(reverse=true) | first | regex_search('(\\d+(\\.\\d+)+)') }}"
-      when:
-        - versions is defined
         - not desired_version is defined
 
     - set_fact:
