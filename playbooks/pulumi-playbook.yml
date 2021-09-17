@@ -33,9 +33,9 @@
       failed_when: false
 
     - set_fact:
-        current_version: "{{ current_version_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+        current_version: "{{ current_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
       when:
-        - current_version_vsn.stdout is defined
+        - current_vsn.stdout is defined
 
     - name: Download pulumi
       get_url:
