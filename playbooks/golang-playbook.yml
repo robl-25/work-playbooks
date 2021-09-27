@@ -47,3 +47,6 @@
       when:
         - golang_current_var is defined
         - golang_current_var == ""
+
+    - name: Install gopls
+      shell: GO111MODULE=on go get golang.org/x/tools/gopls@latest

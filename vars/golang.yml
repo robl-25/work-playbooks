@@ -1,5 +1,5 @@
 ---
-golang_version: 1.14
+golang_version: 1.16.8
 golang_url: 'https://golang.org/dl/go{{ golang_version }}.linux-amd64.tar.gz'
 bashrc_path: /home/{{ ansible_user_id }}/.bashrc
 golang_env_vars:
