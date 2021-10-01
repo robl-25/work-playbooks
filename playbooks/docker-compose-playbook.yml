@@ -26,14 +26,14 @@
       register: result
 
     - set_fact:
-        docker_compose_latest_version: "{{ result.json.name }}"
+        docker_compose_latest_version: "{{ result.json.name | regex_search('(\\d+(\\.\\d+)+)') }}"
       when:
         - result.json is defined
 
     - name: Install or upgrade docker-compose
       become: yes
       get_url:
-        url : "https://github.com/docker/compose/releases/download/{{ docker_compose_latest_version }}/docker-compose-Linux-x86_64"
+        url : "https://github.com/docker/compose/releases/download/v{{ docker_compose_latest_version }}/docker-compose-Linux-x86_64"
         dest: /usr/local/bin/docker-compose
         mode: 'a+x'
         force: yes
