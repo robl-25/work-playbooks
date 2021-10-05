@@ -4,6 +4,7 @@ atom_packages:
   - busy-signal
   - git-blame
   - go-imports
+  - gopls
   - ide-golang
   - ide-python
   - intentions
