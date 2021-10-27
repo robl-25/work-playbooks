@@ -11,9 +11,6 @@
 - name: Install awscli
   import_playbook: playbooks/awscli-playbook.yml
 
-- name: Install atom
-  import_playbook: playbooks/atom-playbook.yml
-
 - name: Install kubernetes
   import_playbook: playbooks/kubernetes-playbook.yml
 
@@ -62,17 +59,14 @@
 - name: Install nodejs
   import_playbook: playbooks/nodejs-playbook.yml
 
-- name: Install vlc
-  import_playbook: playbooks/vlc-playbook.yml
-
 - name: Install crowdstrike
   import_playbook: playbooks/crowdstrike-playbook.yml
-
-- name: Install spotify
-  import_playbook: playbooks/spotify-playbook.yml
 
 - name: Install elixir
   import_playbook: playbooks/elixir-playbook.yml
 
 - name: Install pulumi
   import_playbook: playbooks/pulumi-playbook.yml
+
+- name: Install atom
+  import_playbook: playbooks/atom-playbook.yml
