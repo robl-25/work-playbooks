@@ -24,7 +24,7 @@
     - name: install apt key
       become: yes
       apt_key:
-        url: 'https://packagecloud.io/AtomEditor/atom/gpgkey'
+        url: https://packagecloud.io/AtomEditor/atom/gpgkey
         state: present
 
     - name: install atom repo
