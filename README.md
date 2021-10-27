@@ -9,7 +9,7 @@ First, install [ansible](https://docs.ansible.com/ansible/latest/installation_gu
 For each variable use this format `-e name=value`. Available variables are:
 - ansible_become_password: sudo password. Required.
 - ansible_fortihost: host used in forticlient. Optional. If not passed forticlient won't be configured and this service can have problems to work.
-- ansible_cert: certificate used in forticlient connection. Optional. If not passed forticlient won't be configured and this service can have problems to work.
+- ansible_forticert: certificate used in forticlient connection. Optional. If not passed forticlient won't be configured and this service can have problems to work.
 - ansible_crowdstrike_cid: cid used in crowdstrike. Optional. If not passed the cid won't be configured and this service can have problems to work.
 
 ## For new systems
