@@ -1,5 +1,5 @@
 ---
-- name: playbook to install git
+- name: playbook to install forticlient
   hosts: localhost
   connection: local
   vars_files:
