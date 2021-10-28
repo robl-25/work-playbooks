@@ -1,0 +1,16 @@
+---
+- name: playbook to install ffmpeg
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install ffmpeg
+      become: yes
+      apt:
+        name:
+          - libavcodec58 
+          - ffmpeg
+        state: latest
+        update_cache: no
+        install_recommends: yes
+        force_apt_get: yes
