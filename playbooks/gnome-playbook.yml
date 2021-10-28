@@ -1,0 +1,15 @@
+---
+- name: playbook to configure gnome
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install gnome-tweaks
+      become: yes
+      apt:
+        name: gnome-tweaks
+        state: latest
+        update_cache: no
+
+    - name: Update workspace to work in all monitors
+      shell: gsettings set org.gnome.mutter workspaces-only-on-primary false
