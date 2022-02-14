@@ -14,11 +14,20 @@ For each variable use this format `-e name=value`. Available variables are:
 
 ## For new systems
 ### Sudoers Group
+#### Debian
 For default debian doesn't include your user in sudoers group. To include, first login as root. Then type `sudo usermod -aG sudo <username>`.
+#### Fedora
+On Fedora, it is the wheel group the user has to be added to, as this group has full admin privileges. You can run `sudo usermod -aG wheel <username>`. If this doesn't work, you may have to edit the `/etc/sudoers` file to uncomment the line with the group name:
+```
+...
+%wheel ALL=(ALL) ALL
+...
+```
+You will need to logout and back in for changes to take effect.
 
 ### Debian Repository
 If your instalation is old, you can just update the repositories to get new version of the packages. For new versions edit `/etc/apt/sources.list` with:
-```
+```bash
 deb http://deb.debian.org/debian/ testing main non-free contrib
 deb-src http://deb.debian.org/debian/ testing main non-free contrib
 
