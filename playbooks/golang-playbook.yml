@@ -52,4 +52,7 @@
       shell: '{{ update_path }} && GO111MODULE=on go get golang.org/x/tools/gopls@latest'
 
     - name: Install golangci-lint
-      shell: '{{ update_path }} && GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint'
+      shell: '{{ update_path }} && GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint@latest'
+
+    - name: Install goimports
+      shell: '{{ update_path }} && GO111MODULE=on go get golang.org/x/tools/cmd/goimports@latest'
