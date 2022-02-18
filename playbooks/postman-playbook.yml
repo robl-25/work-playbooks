@@ -1,0 +1,53 @@
+---
+- name: playbook to install postman latest version
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/postman.yml
+
+  tasks:
+    - name: Download postman
+      get_url:
+        url: '{{ mirror }}'
+        dest: '{{ download_dir }}/{{ download_filename }}'
+        mode: 'u=rw,go=r'
+
+    - name: Create download directory installation
+      file:
+        state: '{{ item }}'
+        dest: '{{ local_dir }}'
+      with_items:
+        - absent
+        - directory
+
+    - name: Extract postman files
+      unarchive:
+        remote_src: yes
+        src: '{{ download_dir }}/{{ download_filename }}'
+        dest: '{{ download_dir }}'
+
+    - name: Copy files to local dir
+      copy:
+        remote_src: yes
+        src: '{{ download_dir }}/Postman/'
+        dest: '{{ local_dir }}'
+
+    - name: Copy files to local dir
+      copy:
+        remote_src: yes
+        src: '{{ item }}'
+        dest: '{{ local_dir }}'
+      with_fileglob: '{{ download_dir }}/Postman/*'
+
+    - name: Fix postman scripts permissions
+      file:
+        path: '{{ local_dir }}'
+        recurse: yes
+        mode: 'u=rwx,go=rx'
+
+    - name: Create symbolic link
+      become: yes
+      file:
+        src: "{{ local_dir }}/app/Postman"
+        dest: "/usr/local/bin/postman"
+        state: link

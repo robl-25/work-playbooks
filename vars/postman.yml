@@ -1,0 +1,5 @@
+---
+mirror: 'https://dl.pstmn.io/download/latest/linux64'
+download_dir: '/tmp'
+local_dir: '/home/{{ ansible_user_id }}/.postman'
+download_filename: 'postman'
