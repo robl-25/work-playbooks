@@ -70,3 +70,6 @@
 
 - name: Install atom
   import_playbook: playbooks/atom-playbook.yml
+
+- name: Install protonvpn
+  import_playbook: playbooks/atom-playbook.yml

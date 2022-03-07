@@ -1,0 +1,18 @@
+---
+- name: playbook to install protonvpn
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/protonvpn.yml
+
+  tasks:
+    - name: Download setup package
+      become: yes
+      apt:
+        deb: '{{ setup_url }}'
+        update_cache: yes
+
+    - name: Update repositories and install protonvpn
+      become: yes
+      apt:
+        name: protonvpn
