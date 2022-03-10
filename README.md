@@ -2,16 +2,24 @@
 Playbooks to install packages for work
 
 ## Prerequisites
-Install [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) in your machine. Or use [For new systems](#for-new-systems) section.
+You just need ansible installed. You can use [For new systems](#for-new-systems)
+section or ansible [documentation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) to install it.
 
 ## How to use
 First, you need to create a main file. This file will have all playbooks that you
-want to run. You can use [main.yml.example](main.yml.example) file. There we have all
-playbooks in this repository. Then, just remove the ones you don't want.
-Then, run `ansible-playbook main.yml -e ansible_become_password=<YOUR_ROOT_PASSWORD>`.
-The documentation for each playbook can be found in [docs](docs/). it will have the
-same as the playbook file. For example, for atom playbook you can look at
-[docs/atom.md](docs/atom.md).
+want to run. You can use this file [main.yml.example](main.yml.example). There we have
+all playbooks in this repository. Then, just remove the ones you don't want.
+To run use `ansible-playbook main.yml -e ansible_become_password=<YOUR_ROOT_PASSWORD>`.
+
+Playbooks documentation:
+- [arandr](docs/arandr.md)
+- [atom](docs/atom.md)
+- [awscli](docs/awscli.md)
+- [crowdstrike](docs/crowdstrike.md)
+- [discord](docs/discord.md)
+- [docker-compose](docs/docker-compose.md)
+- [docker](docs/docker.md)
+- [forticlient](docs/forticlient.md)
 
 ## For new systems
 ### Sudoers Group
