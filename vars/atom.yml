@@ -1,5 +1,5 @@
 ---
-atom_packages:
+default_atom_packages:
   - atom-ide-ui
   - busy-signal
   - git-blame

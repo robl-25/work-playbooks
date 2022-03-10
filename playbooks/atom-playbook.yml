@@ -55,6 +55,6 @@
         apm install '{{ item }}'
       args:
         executable: /bin/bash
-      loop: '{{ atom_packages }}'
+      loop: '{{ atom_packages | default(default_atom_packages) }}'
       register: apm_result
       changed_when: "'Already installed.' not in apm_result.stdout"
