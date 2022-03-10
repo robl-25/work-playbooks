@@ -35,6 +35,9 @@
 - name: Install git stuff
   import_playbook: playbooks/git-playbook.yml
 
+- name: Install gnome stuff
+  import_playbook: playbooks/gnome-playbook.yml
+
 - name: Install golang
   import_playbook: playbooks/golang-playbook.yml
 
