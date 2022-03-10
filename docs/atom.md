@@ -3,7 +3,9 @@
 This playbook installs [atom](https://atom.io/), its dependencies and some packages.
 The installation process involves add key for atom repository and its repository
 with apt command. Then it will be possible to use atom with `apt`.
-For the packages, you can choose or let it install the default packages. The default packages are:
+
+## Variables
+This playbook install some packages for atom by default. They are:
 - atom-ide-ui
 - busy-signal
 - git-blame
@@ -18,7 +20,8 @@ For the packages, you can choose or let it install the default packages. The def
 - linter-ui-default
 - linter
 
-If you want to choose the packages in the main file use the variable `atom_packages`. For example:
+If you want, you can use the variable `atom_packages` in the main file to overwrite
+the default. For example:
 ```yaml
 - name: Install atom
   import_playbook: playbooks/atom-playbook.yml
@@ -26,6 +29,6 @@ If you want to choose the packages in the main file use the variable `atom_packa
     atom_packages:
       - atom-ide-ui
 ```
-For empty list, you can just pass `[]`.
+To not install packages use empty list, passing `[]`.
 
 **Observation**: This playbook create a symbolic link to use python3 as python.

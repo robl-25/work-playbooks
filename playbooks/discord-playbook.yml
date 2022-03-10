@@ -9,22 +9,29 @@
     - name: Check if discord is installed
       become: yes
       command: dpkg -s discord
-      register: disc_check_installed_version
-      failed_when: false
+      register: check_installed_version
       changed_when: false
+      failed_when: false
 
     - set_fact:
-        disc_installed_version: "{{ disc_check_installed_version.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+        installed_version: "{{ check_installed_version.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
       when:
-        - disc_check_installed_version.sdtout is defined
+        - check_installed_version.stdout is defined
 
     - name: Download discord
       get_url:
         url: '{{ url }}'
-        dest: '{{ deb_full_dest }}'
+        dest: '{{ deb_path }}'
+
+    - name: Get latest version
+      become: yes
+      command: 'dpkg-deb -f {{ deb_path }} Version'
+      register: latest_version
 
     - name: Install Discord
       become: yes
       apt:
         deb: '{{ deb_path }}'
-      when: disc_installed_version is not defined
+      when: >
+        installed_version is not defined
+        or installed_version is version(latest_version.stdout, '<')

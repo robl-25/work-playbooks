@@ -6,15 +6,15 @@
   tasks:
     - name: Check current docker-compose version
       command: docker-compose --version
-      register: docker_compose_vsn
+      register: vsn
       changed_when: false
       failed_when: false
       check_mode: no
 
     - set_fact:
-        docker_compose_current_version: "{{ docker_compose_vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+        current_version: "{{ vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
       when:
-        - docker_compose_vsn.stdout is defined
+        - vsn.stdout is defined
 
     - name: Get latest version
       uri:
@@ -26,17 +26,17 @@
       register: result
 
     - set_fact:
-        docker_compose_latest_version: "{{ result.json.name | regex_search('(\\d+(\\.\\d+)+)') }}"
+        latest_version: "{{ result.json.name | regex_search('(\\d+(\\.\\d+)+)') }}"
       when:
         - result.json is defined
 
     - name: Install or upgrade docker-compose
       become: yes
       get_url:
-        url : "https://github.com/docker/compose/releases/download/v{{ docker_compose_latest_version }}/docker-compose-Linux-x86_64"
+        url : '{{ github_url }}v{{ latest_version }}/docker-compose-{{ platform }}'
         dest: /usr/local/bin/docker-compose
         mode: 'a+x'
         force: yes
       when: >
-        docker_compose_current_version is not defined
-        or docker_compose_current_version is version(docker_compose_latest_version, '<')
+        current_version is not defined
+        or current_version is version(latest_version, '<')

@@ -27,8 +27,10 @@
         group: "root"
         mode: 0600
       when:
-        - ansible_fortihost is defined
-        - ansible_forticert is defined
+        - host is defined
+        - cert is defined
+        - port is defined
+        - realm is defined
 
     - name: Configuring cron to reconnect VPN in cases where it disconnects
       become: true
@@ -39,6 +41,8 @@
         state: present
         user: root
       when:
-        - with_cron
-        - ansible_fortihost is defined
-        - ansible_forticert is defined
+        - with_cron is defined and with_cron
+        - host is defined
+        - cert is defined
+        - port is defined
+        - realm is defined

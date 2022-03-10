@@ -1,16 +1,17 @@
 # work-playbooks
 Playbooks to install packages for work
 
-## How to use
-First, install [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) in your machine. Then, run
-`ansible-playbook main.yml [variables]`.
+## Prerequisites
+Install [ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) in your machine. Or use [For new systems](#for-new-systems) section.
 
-### Variables
-For each variable use this format `-e name=value`. Available variables are:
-- ansible_become_password: sudo password. Required.
-- ansible_fortihost: host used in forticlient. Optional. If not passed forticlient won't be configured and this service can have problems to work.
-- ansible_forticert: certificate used in forticlient connection. Optional. If not passed forticlient won't be configured and this service can have problems to work.
-- ansible_crowdstrike_cid: cid used in crowdstrike. Optional. If not passed the cid won't be configured and this service can have problems to work.
+## How to use
+First, you need to create a main file. This file will have all playbooks that you
+want to run. You can use [main.yml.example](main.yml.example) file. There we have all
+playbooks in this repository. Then, just remove the ones you don't want.
+Then, run `ansible-playbook main.yml -e ansible_become_password=<YOUR_ROOT_PASSWORD>`.
+The documentation for each playbook can be found in [docs](docs/). it will have the
+same as the playbook file. For example, for atom playbook you can look at
+(docs/atom.md)[docs/atom.md].
 
 ## For new systems
 ### Sudoers Group
