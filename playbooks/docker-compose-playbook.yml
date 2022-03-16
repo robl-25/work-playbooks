@@ -2,6 +2,8 @@
 - name: playbook to install docker-compose
   hosts: localhost
   connection: local
+  vars_files:
+    - ../vars/docker-compose.yml
 
   tasks:
     - name: Check current docker-compose version

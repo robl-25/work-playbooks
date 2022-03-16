@@ -4,6 +4,9 @@
   connection: local
 
   tasks:
+    - set_fact:
+        desktop_env: "{{ lookup('env', 'XDG_CURRENT_DESKTOP').split(':')[1] | lower }}"
+
     - name: Install gnome-tweaks
       become: yes
       apt:
