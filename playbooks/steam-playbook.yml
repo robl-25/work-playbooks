@@ -4,9 +4,15 @@
   connection: local
 
   tasks:
+    - name: Add steam source
+      become: yes
+      apt_repository:
+        repo: deb http://repo.steampowered.com/steam/ precise steam
+        state: present
+        update_cache: yes
+
     - name: Install Steam installer
       become: yes
       apt:
-        name: steam-installer
-        state: latest
+        name: steam-launcher
         update_cache: no
