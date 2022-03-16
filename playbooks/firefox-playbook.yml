@@ -9,7 +9,9 @@
     - name: Remove firefox esr
       become: yes
       apt:
-        name: firefox-esr
+        name:
+          - firefox-esr
+          - firefox
         state: absent
 
     - name: Auto remove unused packages
@@ -69,6 +71,10 @@
         mode: 0644
       when: not firefox_desktop_icon.stat.exists
 
+    - name: Check if firefox is current browser default
+      command: xdg-settings get default-web-browser
+      register: current_preferred_browser
+
     - name: Set default browser
-      command: 'xdg-settings set default-web-browser firefox.desktop'
-      when: not stat_result.stat.exists
+      command: 'xdg-settings set default-web-browser firefox_dev.desktop'
+      when: current_preferred_browser != firefox_desktop_path
