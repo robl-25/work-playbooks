@@ -1,0 +1,6 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+gpg_key: https://syncthing.net/release-key.gpg
+repository: "deb https://apt.syncthing.net/ syncthing stable"
+github_url: https://github.com/keepassxreboot/keepassxc/releases/download
+platform: x86_64
