@@ -48,11 +48,6 @@
         - golang_current_var is defined
         - golang_current_var == ""
 
-    - name: Install gopls
-      shell: '{{ update_path }} && GO111MODULE=on go get golang.org/x/tools/gopls@latest'
-
-    - name: Install golangci-lint
-      shell: '{{ update_path }} && GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint@latest'
-
-    - name: Install goimports
-      shell: '{{ update_path }} && GO111MODULE=on go get golang.org/x/tools/cmd/goimports@latest'
+    - name: Install tools
+      shell: '{{ update_path }} && GO111MODULE=on go get {{ item.url }}@{{ item.version }}'
+      loop: '{{ tools | default(default_tools) }}'

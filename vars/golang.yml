@@ -7,3 +7,14 @@ update_path: 'export PATH=$HOME/bin:{{ golang_path }}/bin:$PATH'
 golang_env_vars:
   - export GOROOT="{{ golang_path }}"
   - export PATH=$HOME/bin:$GOROOT/bin:$PATH
+
+default_tools:
+  - name: gopls
+    version: latest
+    url: golang.org/x/tools/gopls
+  - name: goimports
+    version: latest
+    url: golang.org/x/tools/cmd/goimports
+  - name: golangci-lint
+    version: latest
+    url: github.com/golangci/golangci-lint/cmd/golangci-lint
