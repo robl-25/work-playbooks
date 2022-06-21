@@ -42,20 +42,13 @@
         state: present
         update_cache: yes
 
-    - name: Mark to hold kubectl
-      become: yes
-      dpkg_selections:
-        name: kubectl
-        selection: purge
-      when:
-        - kubectl_current_version is defined
-
     - name: Install or upgrade kubectl
       become: yes
       apt:
-        name: 'kubectl={{ kubectl_version }}'
+        name: 'kubectl={{ kubectl_version | default(kubectl_default_version) }}'
       when: >
         kubectl_current_version is not defined
+        or kubectl_version is not defined
         or kubectl_current_version != kubectl_version
 
     - name: Mark to hold kubectl
@@ -64,28 +57,13 @@
         name: kubectl
         selection: hold
 
-    - name: get last version of kubectx and kubens
-      shell: '{{ kubectx_last_version_command }}'
-      register: kubectx_git_last_tag
+    - include: ../common/download-from-github.yml
+      vars:
+        package: kubectx
 
-    - set_fact:
-        kubectx_last_version: '{{ kubectx_git_last_tag.stdout }}'
-
-    - name: Install or upgrade Kubectx
-      become: yes
-      get_url:
-        url: '{{ kubectx_release_url }}/kubectx'
-        dest: /usr/local/bin/kubectx
-        mode: 'a+x'
-        force: yes
-
-    - name: Install or upgrade Kubens
-      become: yes
-      get_url:
-        url: '{{ kubectx_release_url }}/kubens'
-        dest: /usr/local/bin/kubens
-        mode: 'a+x'
-        force: yes
+    - include: ../common/download-from-github.yml
+      vars:
+        package: kubens
 
     - name: Check if minikube exist and is in the latest version
       command: minikube update-check
