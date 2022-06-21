@@ -4,3 +4,7 @@ gpg_key: https://syncthing.net/release-key.gpg
 repository: "deb https://apt.syncthing.net/ syncthing stable"
 github_url: https://github.com/keepassxreboot/keepassxc/releases/download
 platform: x86_64
+package: keepassxc
+releases_url: https://api.github.com/repos/keepassxreboot/keepassxc/releases/latest
+github_package_name: 'KeePassXC-{{ latest_version }}-{{ platform }}.AppImage'
+download_url: '{{ github_url }}/{{ latest_version }}/{{ github_package_name }}'

@@ -1,3 +1,6 @@
 ---
 github_url: https://github.com/docker/compose/releases/download/
 platform: Linux-x86_64
+package: docker-compose
+releases_url: https://api.github.com/repos/docker/compose/releases/latest
+download_url: '{{ github_url }}v{{ latest_version }}/docker-compose-{{ platform }}'
