@@ -49,5 +49,5 @@
         - golang_current_var == ""
 
     - name: Install tools
-      shell: '{{ update_path }} && GO111MODULE=on go get {{ item.url }}@{{ item.version }}'
+      shell: '{{ update_path }} && GO111MODULE=on go get {{ item.url }}@{{ item.version | default("latest") }}'
       loop: '{{ tools | default(default_tools) }}'

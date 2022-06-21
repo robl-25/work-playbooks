@@ -10,11 +10,8 @@ golang_env_vars:
 
 default_tools:
   - name: gopls
-    version: latest
     url: golang.org/x/tools/gopls
   - name: goimports
-    version: latest
     url: golang.org/x/tools/cmd/goimports
   - name: golangci-lint
-    version: latest
     url: github.com/golangci/golangci-lint/cmd/golangci-lint
