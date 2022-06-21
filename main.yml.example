@@ -48,7 +48,7 @@
   import_playbook: playbooks/keepassxc-playbook.yml
 
 - name: Install KeePassXC
-  import_playbook: playbooks/kubernetes-playbook.yml
+  import_playbook: playbooks/keepassxc-playbook.yml
 
 - name: Install kubernetes
   import_playbook: playbooks/kubernetes-playbook.yml
