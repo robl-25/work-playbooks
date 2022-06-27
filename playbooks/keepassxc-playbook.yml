@@ -27,3 +27,8 @@
         name: syncthing
         state: latest
         update_cache: no
+
+    - name: Add to startup
+      copy:
+        src: /usr/share/applications/syncthing-start.desktop
+        dest: /home/{{ ansible_user_id }}/.config/autostart/syncthing-start.desktop
