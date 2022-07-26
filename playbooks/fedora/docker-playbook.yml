@@ -1,0 +1,6 @@
+---
+- name: Install docker
+  become: yes
+  dnf:
+    name: docker
+    state: latest

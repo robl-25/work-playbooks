@@ -6,7 +6,7 @@
     - ../vars/keepassxc.yml
 
   tasks:
-    - include: ../common/download-from-github.yml
+    - include_tasks: ../common/download-from-github.yml
 
     - name: Add Syncthing GPG Key
       become: yes

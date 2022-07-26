@@ -57,11 +57,11 @@
         name: kubectl
         selection: hold
 
-    - include: ../common/download-from-github.yml
+    - include_tasks: ../common/download-from-github.yml
       vars:
         package: kubectx
 
-    - include: ../common/download-from-github.yml
+    - include_tasks: ../common/download-from-github.yml
       vars:
         package: kubens
 

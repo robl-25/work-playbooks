@@ -6,4 +6,8 @@
     - ../vars/docker-compose.yml
 
   tasks:
-    - include: ../common/download-from-github.yml
+    - include_tasks: debian/docker-compose-playbook.yml
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+    - include_tasks: fedora/docker-compose-playbook.yml
+      when: ansible_distribution == 'Fedora'

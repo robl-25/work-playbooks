@@ -1,0 +1,6 @@
+---
+- name: Install docker-compose
+  become: yes
+  dnf:
+    name: docker-compose
+    state: latest
