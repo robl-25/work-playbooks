@@ -28,6 +28,11 @@
         state: latest
         update_cache: no
 
+    - name: Create fi not exists autostart folder
+      file:
+        path: /home/{{ ansible_user_id }}/.config/autostart
+        state: directory
+
     - name: Add to startup
       copy:
         src: /usr/share/applications/syncthing-start.desktop
