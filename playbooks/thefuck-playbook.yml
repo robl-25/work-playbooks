@@ -6,36 +6,8 @@
     - ../vars/thefuck.yml
 
   tasks:
-    - name: Install dependencies
-      become: yes
-      apt:
-        name:
-          - python3-dev
-          - python3-pip
-          - python3-setuptools
-        state: latest
-        update_cache: no
+    - include_tasks: debian/thefuck-playbook.yml
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-    - name: Install thefuck
-      become: yes
-      pip:
-        name: thefuck
-
-    - name: Check if exist bash aliass
-      command: 'grep -F "thefuck" {{ bashrc_path }}'
-      register: thefuck_alias
-      changed_when: false
-      failed_when: false
-      check_mode: no
-
-    - set_fact:
-        thefuck_current_alias: '{{ thefuck_alias.stdout }}'
-      when:
-        - thefuck_alias.stdout is defined
-
-    - name: Add thefuck alias
-      lineinfile:
-        path: '{{ bashrc_path }}'
-        line: '{{ thefuck_command }}'
-      when:
-        - thefuck_current_alias != thefuck_command
+    - include_tasks: fedora/thefuck-playbook.yml
+      when: ansible_distribution == 'Fedora'
