@@ -1,9 +1,2 @@
 ---
-- name: playbook to install docker-compose
-  hosts: localhost
-  connection: local
-  vars_files:
-    - ../vars/docker-compose.yml
-
-  tasks:
-    - include_tasks: ../common/download-from-github.yml
+- include_tasks: ../common/download-from-github.yml
