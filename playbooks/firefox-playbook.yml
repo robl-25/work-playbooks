@@ -6,75 +6,8 @@
     - ../vars/firefox.yml
 
   tasks:
-    - name: Remove firefox esr
-      become: yes
-      apt:
-        name:
-          - firefox-esr
-          - firefox
-        state: absent
+    - include_tasks: debian/firefox-playbook.yml
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-    - name: Auto remove unused packages
-      become: yes
-      apt:
-        autoremove: yes
-        purge: yes
-
-    - name: Check if firefox file exist
-      stat:
-        path: '{{ firefox_home }}'
-      register: stat_result
-
-    - name: Create firefox directory
-      file:
-        path: "{{ firefox_home }}"
-        state: directory
-        mode: 0755
-      when: not stat_result.stat.exists
-
-    - name: Download and decompress firefox
-      unarchive:
-        src: '{{ firefox_url }}'
-        dest: '{{ firefox_home }}'
-        remote_src: yes
-      when: not stat_result.stat.exists
-
-    - name: Delete firefox symlink if it exists
-      become: yes
-      file:
-        path: /usr/bin/firefox-dev
-        state: absent
-      when: not stat_result.stat.exists
-
-    - name: Create symlink
-      become: yes
-      file:
-        src: "{{ firefox_bin }}"
-        dest: /usr/bin/firefox-dev
-        state: link
-      when: not stat_result.stat.exists
-
-    - name: Create desktop icons directory if does not exist
-      file:
-        path: '{{ user_desktop_icons_path }}'
-        state: directory
-
-    - name: Check if desktop icon exist
-      stat:
-        path: '{{ firefox_desktop_path }}'
-      register: firefox_desktop_icon
-
-    - name: Create desktop icon
-      template:
-        src: ../templates/firefox.desktop.j2
-        dest: '{{ firefox_desktop_path }}'
-        mode: 0644
-      when: not firefox_desktop_icon.stat.exists
-
-    - name: Check if firefox is current browser default
-      command: xdg-settings get default-web-browser
-      register: current_preferred_browser
-
-    - name: Set default browser
-      command: 'xdg-settings set default-web-browser firefox_dev.desktop'
-      when: current_preferred_browser != firefox_desktop_path
+    - include_tasks: fedora/firefox-playbook.yml
+      when: ansible_distribution == 'Fedora'
