@@ -4,3 +4,34 @@
   dnf:
     name: docker
     state: latest
+
+- name: Run and enable docker
+  become: yes
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Create docker group
+  become: yes
+  group:
+    name: docker
+    state: present
+
+- name: Add a current user to docker group
+  become: yes
+  user:
+    name: '{{ ansible_user_id }}'
+    groups: docker
+    append: yes
+
+- name: Change docker directory ownership and permissions
+  file:
+    dest: '/home/{{ ansible_user_id }}/.docker'
+    owner: '{{ ansible_user_id }}'
+    mode: g+rwx
+    recurse: yes
