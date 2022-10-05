@@ -8,6 +8,10 @@ shortcuts:
 
 layout_configs:
   - { conf: /Default/XkbDisable, value: 'false' }
-  - { conf: /Default/XkbLayout, value: 'br,us' }
+  - { conf: /Default/XkbLayout, value: ',intl' }
   - { conf: /Default/XkbOptions/Group, value: 'grp:alt_caps_toggle' }
-  - { conf: /Default/XkbVariant, value: ',intl' }
+  - { conf: /Default/XkbVariant, value: 'br,us' }
+
+environment_path: /etc/environment
+gtk_var: GTK_IM_MODULE=cedilla
+qt_var: QT_IM_MODULE=cedilla
