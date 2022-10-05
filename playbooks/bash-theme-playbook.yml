@@ -1,0 +1,26 @@
+---
+- name: playbook to configure bash theme
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/bash-theme.yml
+
+  tasks:
+    - name: Check if exist bash aliass
+      command: 'grep -F "PS1" {{ bashrc_path }}'
+      register: theme_aliases
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        theme_current_alias: '{{ theme_aliases.stdout }}'
+      when:
+        - theme_aliases.stdout is defined
+
+    - name: Set theme if nedded
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ theme_command }}'
+      when:
+        - theme_current_alias != theme_command
