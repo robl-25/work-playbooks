@@ -1,0 +1,50 @@
+---
+- name: playbook to configure xfce4 shortcuts and keyboard cedilla
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/keyboard.yml
+
+  tasks:
+    - set_fact:
+        desktop_env: "{{ lookup('env', 'XDG_CURRENT_DESKTOP') | lower }}"
+
+    - name: Create shortcuts
+      command: 'xfconf-query -c xfce4-keyboard-shortcuts -p {{ item.command }} -n -t string -s {{ item.action }}'
+      loop: '{{ shortcuts }}'
+      when:
+        - desktop_env in 'xfce'
+
+    - name: Change keyboard layout
+      command: 'xfconf-query -c keyboard-layout -p {{ item.conf }} -n -t string -s {{ item.value }}'
+      loop: '{{ layout_configs }}'
+      when:
+        - desktop_env in 'xfce'
+
+    - name: Check if cedilla is configured
+      command: 'grep -F "cedilla" {{ environment_path }}'
+      register: cedilla_config
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        cedilla_current_config: '{{ cedilla_config.stdout }}'
+      when:
+        - cedilla_config.stdout is defined
+
+    - name: Add cedilla in GTK
+      become: yes
+      lineinfile:
+        path: '{{ environment_path }}'
+        line: '{{ gtk_var }}'
+      when:
+        - cedilla_current_config != gtk_var
+
+    - name: Add cedilla in QT
+      become: yes
+      lineinfile:
+        path: '{{ environment_path }}'
+        line: '{{ qt_var }}'
+      when:
+        - cedilla_current_config != qt_var
