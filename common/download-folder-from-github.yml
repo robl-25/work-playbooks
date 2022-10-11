@@ -1,0 +1,39 @@
+---
+- name: Check current version
+  command: '{{ package }} --version'
+  register: vsn
+  changed_when: false
+  failed_when: false
+  check_mode: no
+
+- set_fact:
+    current_version: "{{ vsn.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+  when:
+    - vsn.stdout is defined
+
+- name: Get latest version
+  uri:
+    url: 'https://api.github.com/repos/{{ repository }}/releases/latest'
+    method: GET
+    return_content: yes
+    status_code: 200
+    body_format: json
+  register: result
+
+- set_fact:
+    latest_version: "{{ result.json.name | regex_search('(\\d+(\\.\\d+)+)') }}"
+  when:
+    - result.json is defined
+
+- name: Clone repository
+  git:
+    repo : '{{ download_url }}'
+    dest: '{{ package_folder }}'
+    clone: yes
+    update: yes
+    force: yes
+    version: "{{ package_version | default('main') }}"
+  when: >
+    current_version is not defined
+    or current_version == ""
+    or current_version is version(latest_version, '<')

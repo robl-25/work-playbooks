@@ -1,0 +1,82 @@
+---
+- name: playbook to install ruby
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/ruby.yml
+
+  tasks:
+    - name: Install dependencies
+      become: yes
+      apt:
+        name:
+          - curl
+          - git
+          - libssl-dev
+        state: latest
+        update_cache: no
+
+    - include_tasks: ../common/download-folder-from-github.yml
+
+    - name: Check if exist bash aliass
+      command: 'grep -F "asdf" {{ bashrc_path }}'
+      register: asdf_alias
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        asdf_current_alias: '{{ asdf_alias.stdout }}'
+      when:
+        - asdf_alias.stdout is defined
+
+    - name: Add asdf alias
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ asdf_command }}'
+      when:
+        - asdf_current_alias != asdf_command
+
+    - name: Check if exist bash alias completions
+      command: 'grep -F "asdf/completions" {{ bashrc_path }}'
+      register: asdf_alias
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        asdf_current_alias: '{{ asdf_alias.stdout }}'
+      when:
+        - asdf_alias.stdout is defined
+
+    - name: Add asdf completions alias
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ asdf_command }}'
+      when:
+        - asdf_current_alias != asdf_command
+
+    - name: Check plugin
+      command: '{{ asdf_binary }} plugin list'
+      register: plugins
+
+    - set_fact:
+        asdf_plugins: '{{ plugins.stdout }}'
+      when:
+        - plugins.stdout is defined
+
+    - name: Add ruby plugin
+      shell: '{{ asdf_binary }} plugin add ruby {{ ruby_plugin_url }}'
+      args:
+        executable: /bin/bash
+      when: "asdf_plugins.find('v=' ~ 'ruby') != -1"
+
+    - name: Install latest as global
+      shell: '{{ asdf_binary }} install ruby latest'
+      args:
+        executable: /bin/bash
+
+    - name: Set ruby latest as global
+      shell: '{{ asdf_binary }} global ruby latest'
+      args:
+        executable: /bin/bash
