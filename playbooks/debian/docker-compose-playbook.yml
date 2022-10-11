@@ -1,2 +1,2 @@
 ---
-- include_tasks: ../common/download-from-github.yml
+- include_tasks: ../common/download-binary-from-github.yml

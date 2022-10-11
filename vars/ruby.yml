@@ -1,0 +1,11 @@
+---
+package_folder: '/home/{{ ansible_user_id }}/.asdf'
+download_url: https://github.com/asdf-vm/asdf.git
+package_version: master
+bashrc_path: '/home/{{ ansible_user_id }}/.bashrc'
+asdf_command: ". $HOME/.asdf/asdf.sh"
+asdf_completions_command: ". $HOME/.asdf/completions/asdf.bash"
+ruby_plugin_url: https://github.com/asdf-vm/asdf-ruby.git
+package: asdf
+repository: asdf-vm/asdf
+asdf_binary: '{{ package_folder }}/bin/asdf'
