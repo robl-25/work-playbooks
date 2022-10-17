@@ -1,0 +1,13 @@
+---
+- name: playbook to install signal
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        package: signal-desktop
+        gpg_key: https://updates.signal.org/desktop/apt/keys.asc
+        repository: "https://updates.signal.org/desktop/apt xenial main"
+        gpg_key_name: signal-desktop-keyring.asc
+        arch: amd64
