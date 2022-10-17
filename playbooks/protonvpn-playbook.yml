@@ -15,4 +15,4 @@
     - name: Update repositories and install protonvpn
       become: yes
       apt:
-        name: protonvpn
+        name: protonvpn-stable-release
