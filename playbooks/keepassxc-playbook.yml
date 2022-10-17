@@ -8,25 +8,11 @@
   tasks:
     - include_tasks: ../common/download-binary-from-github.yml
 
-    - name: Add Syncthing GPG Key
-      become: yes
-      apt_key:
-        url: '{{ gpg_key }}'
-        state: present
-
-    - name: Add Syncthing Repository
-      become: yes
-      apt_repository:
-        repo: '{{ sync_repository }}'
-        state: present
-        update_cache: yes
-
-    - name: Update apt and install Syncthing
-      become: yes
-      apt:
-        name: syncthing
-        state: latest
-        update_cache: no
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        repository: '{{ sync_repository }}'
+        package: syncthing
+        gpg_key_name: syncthing-archive-keyring.gpg
 
     - name: Create fi not exists autostart folder
       file:

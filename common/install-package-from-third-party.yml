@@ -1,0 +1,40 @@
+---
+- name: Add GPG apt key
+  become: yes
+  get_url:
+    url: '{{ gpg_key }}'
+    dest: '/etc/apt/trusted.gpg.d/{{ gpg_key_name }}'
+
+- name: Set arch if defined
+  set_fact:
+    arch_var: 'arch={{ arch }}'
+  when: arch is defined
+
+- name: Set arch if not defined
+  set_fact:
+    arch_var: ''
+  when: arch is not defined
+
+- name: Set filename if not defined
+  set_fact:
+    filename_var: '{{ package }}'
+  when: filename is not defined
+
+- set_fact:
+    filename_var: '{{ filename }}'
+  when: filename is defined
+
+- name: Add Repository
+  become: yes
+  apt_repository:
+    repo: 'deb [{{arch_var}} signed-by=/etc/apt/trusted.gpg.d/{{ gpg_key_name }}] {{ repository }}'
+    state: present
+    filename: '{{ filename_var }}'
+    update_cache: yes
+
+- name: Update apt and install package
+  become: yes
+  apt:
+    name: '{{ package }}'
+    state: latest
+    update_cache: no

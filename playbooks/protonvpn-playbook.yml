@@ -16,3 +16,4 @@
       become: yes
       apt:
         name: protonvpn-stable-release
+        state: latest

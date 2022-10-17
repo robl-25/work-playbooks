@@ -14,25 +14,11 @@
     state: latest
     update_cache: no
 
-- name: Add Docker GPG apt Key
-  become: yes
-  apt_key:
-    url: '{{ gpg_key }}'
-    state: present
-
-- name: Add Docker Repository
-  become: yes
-  apt_repository:
-    repo: '{{ repository }}'
-    state: present
-    update_cache: yes
-
-- name: Update apt and install docker-ce
-  become: yes
-  apt:
-    name: docker-ce
-    state: latest
-    update_cache: no
+- include_tasks: ../common/install-package-from-third-party.yml
+  vars:
+    package: docker-ce
+    gpg_key_name: docker-keyring.asc
+    arch: amd64
 
 - name: Run and enable docker
   become: yes

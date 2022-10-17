@@ -21,24 +21,14 @@
         dest: /usr/bin/python
         state: link
 
-    - name: install apt key
-      become: yes
-      apt_key:
-        url: https://packagecloud.io/AtomEditor/atom/gpgkey
-        state: present
-
-    - name: install atom repo
-      become: yes
-      apt_repository:
-        repo: deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        gpg_key: https://packagecloud.io/AtomEditor/atom/gpgkey
+        repository: https://packagecloud.io/AtomEditor/atom/any/ any main
+        package: atom
+        gpg_key_name: atom-keyring.asc
+        arch: amd64
         filename: atom
-        state: present
-
-    - name: install atom
-      become: yes
-      apt:
-        name: atom
-        state: latest
 
     - name: Install packages dependencies
       pip:
