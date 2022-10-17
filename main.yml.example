@@ -74,6 +74,12 @@
 - name: Install pulumi
   import_playbook: playbooks/pulumi-playbook.yml
 
+- name: Install ruby
+  import_playbook: playbooks/ruby-playbook.yml
+
+- name: Install signal
+  import_playbook: playbooks/signal-playbook.yml
+
 - name: Install spotify
   import_playbook: playbooks/spotify-playbook.yml
 
