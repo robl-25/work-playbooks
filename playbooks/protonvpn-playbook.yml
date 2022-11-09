@@ -10,10 +10,15 @@
       become: yes
       apt:
         deb: '{{ setup_url }}'
+
+    - name: Update repositories
+      become: yes
+      apt:
         update_cache: yes
 
-    - name: Update repositories and install protonvpn
+    - name: Install protonvpn
       become: yes
       apt:
         name: protonvpn
         state: latest
+        update_cache: yes
