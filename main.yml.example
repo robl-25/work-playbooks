@@ -62,6 +62,9 @@
 - name: Install kustomize
   import_playbook: playbooks/kustomize-playbook.yml
 
+- name: Install Ngrok
+  import_playbook: playbooks/ngrok-playbook.yml
+
 - name: Install nodejs
   import_playbook: playbooks/nodejs-playbook.yml
 
