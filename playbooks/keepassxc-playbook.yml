@@ -6,7 +6,12 @@
     - ../vars/keepassxc.yml
 
   tasks:
-    - include_tasks: ../common/download-binary-from-github.yml
+    - name: Install keepassxc
+      become: yes
+      apt:
+        name: keepassxc
+        state: latest
+        update_cache: no
 
     - include_tasks: ../common/install-package-from-third-party.yml
       vars:
