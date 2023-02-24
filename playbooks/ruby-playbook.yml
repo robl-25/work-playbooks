@@ -13,6 +13,7 @@
           - curl
           - git
           - libssl-dev
+          - libyaml-dev
         state: latest
         update_cache: no
 
