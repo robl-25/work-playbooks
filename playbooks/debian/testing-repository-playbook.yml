@@ -1,0 +1,29 @@
+---
+- name: playbook to add debian testing repository
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Check if preference file exist
+      stat:
+        path: /etc/apt/preferences.d/testing.pref
+      register: preference_file
+
+    - name: Create preference file
+      become: yes
+      template:
+        src: ../../templates/testing.pref
+        dest: /etc/apt/preferences.d/testing.pref
+      when: not preference_file.stat.exists
+
+    - name: Check if source list file exist
+      stat:
+        path: /etc/apt/sources.list.d/testing.list
+      register: source_list_file
+
+    - name: Create source list
+      become: yes
+      template:
+        src: ../../templates/testing.list
+        dest: /etc/apt/sources.list.d/testing.list
+      when: not source_list_file.stat.exists
