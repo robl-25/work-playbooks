@@ -1,0 +1,2 @@
+deb http://ftp.br.debian.org/debian {{ experimental_version | default('experimental')}} main
+deb-src http://ftp.br.debian.org/debian {{ experimental_version | default('experimental')}} main

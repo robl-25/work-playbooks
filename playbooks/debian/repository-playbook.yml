@@ -1,0 +1,77 @@
+---
+- name: playbook to add debian testing repository
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Check if testing preference file exist
+      stat:
+        path: /etc/apt/preferences.d/testing.pref
+      register: testing_preference_file
+
+    - name: Create testing preference file
+      become: yes
+      template:
+        src: ../../templates/debian/testing.pref
+        dest: /etc/apt/preferences.d/testing.pref
+      when: not testing_preference_file.stat.exists
+
+    - name: Check if testing source list file exist
+      stat:
+        path: /etc/apt/sources.list.d/testing.list
+      register: testing_source_list_file
+
+    - name: Create testing source list
+      become: yes
+      template:
+        src: ../../templates/debian/testing.list
+        dest: /etc/apt/sources.list.d/testing.list
+      when: not testing_source_list_file.stat.exists
+
+    - name: Check if unstable preference file exist
+      stat:
+        path: /etc/apt/preferences.d/unstable.pref
+      register: unstable_preference_file
+
+    - name: Create unstable preference file
+      become: yes
+      template:
+        src: ../../templates/debian/unstable.pref
+        dest: /etc/apt/preferences.d/unstable.pref
+      when: not unstable_preference_file.stat.exists
+
+    - name: Check if unstable source list file exist
+      stat:
+        path: /etc/apt/sources.list.d/unstable.list
+      register: unstable_source_list_file
+
+    - name: Create unstable source list
+      become: yes
+      template:
+        src: ../../templates/debian/unstable.list
+        dest: /etc/apt/sources.list.d/unstable.list
+      when: not unstable_source_list_file.stat.exists
+
+    - name: Check if experimental preference file exist
+      stat:
+        path: /etc/apt/preferences.d/experimental.pref
+      register: experimental_preference_file
+
+    - name: Create experimental preference file
+      become: yes
+      template:
+        src: ../../templates/debian/experimental.pref
+        dest: /etc/apt/preferences.d/experimental.pref
+      when: not experimental_preference_file.stat.exists
+
+    - name: Check if experimental source list file exist
+      stat:
+        path: /etc/apt/sources.list.d/experimental.list
+      register: experimental_source_list_file
+
+    - name: Create experimental source list
+      become: yes
+      template:
+        src: ../../templates/debian/experimental.list
+        dest: /etc/apt/sources.list.d/experimental.list
+      when: not experimental_source_list_file.stat.exists

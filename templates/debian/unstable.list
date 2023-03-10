@@ -1,0 +1,2 @@
+deb http://ftp.br.debian.org/debian {{ unstable_version | default('sid')}} main
+deb-src http://ftp.br.debian.org/debian {{ unstable_version | default('sid')}} main
