@@ -60,7 +60,6 @@
     - name: Check plugin
       command: '{{ asdf_binary }} plugin list'
       register: plugins
-
     - set_fact:
         asdf_plugins: '{{ plugins.stdout }}'
       when:
@@ -70,7 +69,9 @@
       shell: '{{ asdf_binary }} plugin add ruby {{ ruby_plugin_url }}'
       args:
         executable: /bin/bash
-      when: "asdf_plugins.find('v=' ~ 'ruby') != -1"
+      when: >
+        asdf_plugins is not defined
+        or asdf_plugins is not search('ruby')
 
     - name: Install latest as global
       shell: '{{ asdf_binary }} install ruby latest'
