@@ -1,0 +1,10 @@
+---
+- name: playbook to install slack
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install slack
+      become: yes
+      apt:
+        deb: https://downloads.slack-edge.com/releases/linux/4.29.149/prod/x64/slack-desktop-4.29.149-amd64.deb
