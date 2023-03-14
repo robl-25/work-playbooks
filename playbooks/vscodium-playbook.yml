@@ -1,0 +1,13 @@
+---
+- name: playbook to install VSCodium
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        gpg_key: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
+        repository: https://download.vscodium.com/debs vscodium main
+        package: codium
+        gpg_key_name: vscodium-archive-keyring.asc
+        filename: vscodium

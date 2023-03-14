@@ -1,6 +1,7 @@
 ---
 - name: Add GPG apt key
   become: yes
+  become_user: root
   get_url:
     url: '{{ gpg_key }}'
     dest: '/etc/apt/trusted.gpg.d/{{ gpg_key_name }}'
@@ -26,6 +27,7 @@
 
 - name: Add Repository
   become: yes
+  become_user: root
   apt_repository:
     repo: 'deb [{{arch_var}} signed-by=/etc/apt/trusted.gpg.d/{{ gpg_key_name }}] {{ repository }}'
     state: present
@@ -33,6 +35,7 @@
 
 - name: Update apt and install package
   become: yes
+  become_user: root
   apt:
     name: '{{ package }}'
     state: latest
