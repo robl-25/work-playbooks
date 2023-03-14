@@ -47,6 +47,7 @@
 
     - name: Create symbolic link
       become: yes
+      become_user: root
       file:
         src: "{{ local_dir }}/app/Postman"
         dest: "/usr/local/bin/postman"

@@ -6,6 +6,7 @@
   tasks:
     - name: Install Elixir
       become: yes
+      become_user: root
       apt:
         name: elixir
         state: latest

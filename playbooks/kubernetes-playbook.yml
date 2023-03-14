@@ -7,7 +7,8 @@
 
   tasks:
     - name: Install dependencies
-      become: yes
+
+      become_user: root
       apt:
         name:
           - apt-transport-https
@@ -31,12 +32,14 @@
 
     - name: Add Kubernetes GPG apt key
       become: yes
+      become_user: root
       apt_key:
         url: '{{ kubernetes_apt_key }}'
         state: present
 
     - name: Add Kubernetes Repository
       become: yes
+      become_user: root
       apt_repository:
         repo: '{{ kubernetes_apt_repo }}'
         state: present
@@ -44,6 +47,7 @@
 
     - name: Install or upgrade kubectl
       become: yes
+      become_user: root
       apt:
         name: 'kubectl={{ kubectl_version | default(kubectl_default_version) }}'
       when: >
@@ -53,6 +57,7 @@
 
     - name: Mark to hold kubectl
       become: yes
+      become_user: root
       dpkg_selections:
         name: kubectl
         selection: hold
@@ -80,6 +85,7 @@
 
     - name: Install or upgrade minikube
       become: yes
+      become_user: root
       get_url:
         url: '{{ minikube_url }}'
         dest: /usr/local/bin/minikube

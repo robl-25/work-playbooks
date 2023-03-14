@@ -8,6 +8,7 @@
   tasks:
     - name: Install latest version of zoom with dependencies
       become: yes
+      become_user: root
       apt:
         deb: "{{ zoom_url }}"
         state: present

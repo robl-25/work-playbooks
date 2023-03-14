@@ -29,6 +29,7 @@
 
     - name: Copy helm
       become: yes
+      become_user: root
       copy:
         src: /tmp/linux-amd64/helm
         dest: /usr/local/bin/helm

@@ -6,6 +6,7 @@
   tasks:
     - name: Install latest version of vlc
       become: yes
+      become_user: root
       apt:
         name: vlc
         state: latest

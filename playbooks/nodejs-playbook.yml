@@ -6,6 +6,7 @@
   tasks:
     - name: Install requirements
       become: yes
+      become_user: root
       apt:
         name:
           - apt-transport-https
@@ -23,10 +24,12 @@
 
     - name: Execute script
       become: yes
+      become_user: root
       shell: bash /tmp/setup_current.x
 
     - name: Install nodejs and npm
       become: yes
+      become_user: root
       apt:
         name:
           - nodejs

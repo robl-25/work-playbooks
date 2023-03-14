@@ -35,6 +35,7 @@
 
     - name: Add cedilla in GTK
       become: yes
+      become_user: root
       lineinfile:
         path: '{{ environment_path }}'
         line: '{{ gtk_var }}'
@@ -43,6 +44,7 @@
 
     - name: Add cedilla in QT
       become: yes
+      become_user: root
       lineinfile:
         path: '{{ environment_path }}'
         line: '{{ qt_var }}'

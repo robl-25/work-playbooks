@@ -8,6 +8,7 @@
   tasks:
     - name: Check if discord is installed
       become: yes
+      become_user: root
       command: dpkg -s discord
       register: check_installed_version
       changed_when: false
@@ -25,11 +26,13 @@
 
     - name: Get latest version
       become: yes
+      become_user: root
       command: 'dpkg-deb -f {{ deb_path }} Version'
       register: latest_version
 
     - name: Install Discord
       become: yes
+      become_user: root
       apt:
         deb: '{{ deb_path }}'
       when: >

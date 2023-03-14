@@ -1,6 +1,7 @@
 ---
 - name: Install docker-compose
   become: yes
+  become_user: root
   dnf:
     name: docker-compose
     state: latest

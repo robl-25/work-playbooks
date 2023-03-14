@@ -1,6 +1,7 @@
 ---
 - name: Remove firefox esr
   become: yes
+  become_user: root
   apt:
     name:
       - firefox-esr
@@ -9,6 +10,7 @@
 
 - name: Auto remove unused packages
   become: yes
+  become_user: root
   apt:
     autoremove: yes
     purge: yes
@@ -34,6 +36,7 @@
 
 - name: Delete firefox symlink if it exists
   become: yes
+  become_user: root
   file:
     path: /usr/bin/firefox-dev
     state: absent
@@ -41,6 +44,7 @@
 
 - name: Create symlink
   become: yes
+  become_user: root
   file:
     src: "{{ firefox_bin }}"
     dest: /usr/bin/firefox-dev

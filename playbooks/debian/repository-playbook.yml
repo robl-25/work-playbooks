@@ -11,6 +11,7 @@
 
     - name: Create testing preference file
       become: yes
+      become_user: root
       template:
         src: ../../templates/debian/testing.pref
         dest: /etc/apt/preferences.d/testing.pref
@@ -23,6 +24,7 @@
 
     - name: Create testing source list
       become: yes
+      become_user: root
       template:
         src: ../../templates/debian/testing.list
         dest: /etc/apt/sources.list.d/testing.list
@@ -35,6 +37,7 @@
 
     - name: Create unstable preference file
       become: yes
+      become_user: root
       template:
         src: ../../templates/debian/unstable.pref
         dest: /etc/apt/preferences.d/unstable.pref
@@ -47,6 +50,7 @@
 
     - name: Create unstable source list
       become: yes
+      become_user: root
       template:
         src: ../../templates/debian/unstable.list
         dest: /etc/apt/sources.list.d/unstable.list
@@ -59,6 +63,7 @@
 
     - name: Create experimental preference file
       become: yes
+      become_user: root
       template:
         src: ../../templates/debian/experimental.pref
         dest: /etc/apt/preferences.d/experimental.pref
@@ -71,6 +76,7 @@
 
     - name: Create experimental source list
       become: yes
+      become_user: root
       template:
         src: ../../templates/debian/experimental.list
         dest: /etc/apt/sources.list.d/experimental.list

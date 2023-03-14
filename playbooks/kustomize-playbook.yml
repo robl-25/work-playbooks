@@ -61,6 +61,7 @@
 
     - name: Install unarchive module dependencies
       become: yes
+      become_user: root
       apt:
         name:
           - tar
@@ -85,12 +86,14 @@
 
     - name: Create the kustomize installation dir
       become: yes
+      become_user: root
       file:
         state: directory
         dest: '{{ install_dir }}'
 
     - name: Install kustomize
       become: yes
+      become_user: root
       copy:
         src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
         remote_src: yes

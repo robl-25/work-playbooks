@@ -27,6 +27,7 @@
 
 - name: Install or upgrade package
   become: yes
+  become_user: root
   get_url:
     url : '{{ download_url }}'
     dest: '/usr/local/bin/{{ package }}'

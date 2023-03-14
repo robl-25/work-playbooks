@@ -8,12 +8,14 @@
   tasks:
     - name: Add terraform GPG apt key
       become: yes
+      become_user: root
       apt_key:
         url: '{{ terraform_apt_gpg_key }}'
         state: present
 
     - name: Add terraform Repository
       become: yes
+      become_user: root
       apt_repository:
         repo: '{{ terraform_apt_repository }}'
         state: present
@@ -21,6 +23,7 @@
 
     - name: Update apt and install terraform
       become: yes
+      become_user: root
       apt:
         name: terraform
         state: latest

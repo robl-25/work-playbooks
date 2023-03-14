@@ -9,6 +9,7 @@
 
     - name: Install gnome-tweaks
       become: yes
+      become_user: root
       apt:
         name: gnome-tweaks
         state: latest

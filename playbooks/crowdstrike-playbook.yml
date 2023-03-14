@@ -8,6 +8,7 @@
   tasks:
     - name: Download gdown to get google drive file
       become: yes
+      become_user: root
       get_url:
         url: "{{ gdown_url }}"
         dest: "{{ gdown_path }}"
@@ -20,16 +21,19 @@
 
     - name: Install package
       become: yes
+      become_user: root
       apt:
         deb: "{{ deb_path }}"
 
     - name: Set CID
       become: yes
+      become_user: root
       command: '/opt/CrowdStrike/falconctl -s -f --cid={{ ansible_crowdstrike_cid }}'
       when: ansible_crowdstrike_cid is defined
 
     - name: Start service
       become: yes
+      become_user: root
       ansible.builtin.service:
         name: falcon-sensor
         state: started

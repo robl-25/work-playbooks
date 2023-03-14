@@ -6,6 +6,7 @@
   tasks:
     - name: Install Steam installer
       become: yes
+      become_user: root
       apt:
         deb: https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
         update_cache: yes

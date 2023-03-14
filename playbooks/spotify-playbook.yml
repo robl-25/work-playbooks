@@ -8,12 +8,14 @@
   tasks:
     - name: Add package GPG apt key
       become: yes
+      become_user: root
       apt_key:
         url: "{{ gpg_key }}"
         state: present
 
     - name: Add repository
       become: yes
+      become_user: root
       apt_repository:
         repo: "{{ repository }}"
         state: present
@@ -21,6 +23,7 @@
 
     - name: Install client
       become: yes
+      become_user: root
       apt:
         name: spotify-client
         state: latest

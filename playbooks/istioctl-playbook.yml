@@ -62,6 +62,7 @@
 
     - name: Install unarchive module dependencies
       become: yes
+      become_user: root
       apt:
         name:
           - tar
@@ -81,6 +82,7 @@
 
     - name: Install istioctl
       become: yes
+      become_user: root
       copy:
         remote_src: yes
         src: '{{ staging_dir }}/{{ redistribution_executable_filename }}'
