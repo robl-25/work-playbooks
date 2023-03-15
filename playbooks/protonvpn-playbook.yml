@@ -7,20 +7,17 @@
 
   tasks:
     - name: Download setup package
-      become: yes
-      become_user: root
+      become: true
       apt:
         deb: '{{ setup_url }}'
 
     - name: Update repositories
-      become: yes
-      become_user: root
+      become: true
       apt:
         update_cache: yes
 
     - name: Install protonvpn
-      become: yes
-      become_user: root
+      become: true
       apt:
         name: protonvpn
         state: latest

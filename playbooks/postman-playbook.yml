@@ -46,8 +46,7 @@
         mode: 'u=rwx,go=rx'
 
     - name: Create symbolic link
-      become: yes
-      become_user: root
+      become: true
       file:
         src: "{{ local_dir }}/app/Postman"
         dest: "/usr/local/bin/postman"

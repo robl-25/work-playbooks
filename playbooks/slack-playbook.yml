@@ -5,7 +5,6 @@
 
   tasks:
     - name: Install slack
-      become: yes
-      become_user: root
+      become: true
       apt:
         deb: https://downloads.slack-edge.com/releases/linux/4.29.149/prod/x64/slack-desktop-4.29.149-amd64.deb

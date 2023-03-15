@@ -5,8 +5,7 @@
 
   tasks:
     - name: Install arandr
-      become: yes
-      become_user: root
+      become: true
       apt:
         name: arandr
         state: latest

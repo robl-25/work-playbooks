@@ -8,8 +8,7 @@
         desktop_env: "{{ lookup('env', 'XDG_CURRENT_DESKTOP').split(':')[1] | lower }}"
 
     - name: Install gnome-tweaks
-      become: yes
-      become_user: root
+      become: true
       apt:
         name: gnome-tweaks
         state: latest

@@ -1,7 +1,6 @@
 ---
 - name: Install dependencies
-  become: yes
-  become_user: root
+  become: true
   apt:
     name:
       - python3-dev
@@ -11,8 +10,7 @@
     update_cache: no
 
 - name: Install thefuck
-  become: yes
-  become_user: root
+  become: true
   pip:
     name: thefuck
 

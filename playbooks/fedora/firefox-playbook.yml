@@ -1,7 +1,6 @@
 ---
 - name: Remove firefox esr
-  become: yes
-  become_user: root
+  become: true
   dnf:
     name:
       - firefox-esr
@@ -9,8 +8,7 @@
     state: absent
 
 - name: Auto remove unused packages
-  become: yes
-  become_user: root
+  become: true
   dnf:
     autoremove: yes
     purge: yes
@@ -35,16 +33,14 @@
   when: not stat_result.stat.exists
 
 - name: Delete firefox symlink if it exists
-  become: yes
-  become_user: root
+  become: true
   file:
     path: /usr/bin/firefox-dev
     state: absent
   when: not stat_result.stat.exists
 
 - name: Create symlink
-  become: yes
-  become_user: root
+  become: true
   file:
     src: "{{ firefox_bin }}"
     dest: /usr/bin/firefox-dev

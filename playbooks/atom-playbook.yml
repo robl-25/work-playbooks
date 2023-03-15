@@ -7,8 +7,7 @@
 
   tasks:
     - name: install dependencies
-      become: yes
-      become_user: root
+      become: true
       apt:
         name:
           - apt-transport-https
@@ -16,8 +15,7 @@
         state: latest
 
     - name: Create symlink to use python3
-      become: yes
-      become_user: root
+      become: true
       file:
         src: /usr/bin/python3
         dest: /usr/bin/python
@@ -38,8 +36,7 @@
         state: latest
 
     - name: install packages
-      become: yes
-      become_user: root
+      become: true
       become_user: '{{ ansible_user_id }}'
       shell: |
         set -euo pipefail

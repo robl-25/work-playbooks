@@ -1,7 +1,6 @@
 ---
 - name: Install required system packages
-  become: yes
-  become_user: root
+  become: true
   apt:
     name:
         - apt-transport-https
@@ -20,23 +19,20 @@
     arch: amd64
 
 - name: Run and enable docker
-  become: yes
-  become_user: root
+  become: true
   service:
     name: docker
     state: started
     enabled: true
 
 - name: Create docker group
-  become: yes
-  become_user: root
+  become: true
   group:
     name: docker
     state: present
 
 - name: Add a current user to docker group
-  become: yes
-  become_user: root
+  become: true
   user:
     name: '{{ ansible_user_id }}'
     groups: docker

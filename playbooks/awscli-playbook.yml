@@ -7,7 +7,6 @@
 
   tasks:
     - name: installation | ensure awscli is installed
-      become: yes
-      become_user: root
+      become: true
       pip:
         name: awscli

@@ -34,8 +34,7 @@
         - cedilla_config.stdout is defined
 
     - name: Add cedilla in GTK
-      become: yes
-      become_user: root
+      become: true
       lineinfile:
         path: '{{ environment_path }}'
         line: '{{ gtk_var }}'
@@ -43,8 +42,7 @@
         - cedilla_current_config != gtk_var
 
     - name: Add cedilla in QT
-      become: yes
-      become_user: root
+      become: true
       lineinfile:
         path: '{{ environment_path }}'
         line: '{{ qt_var }}'

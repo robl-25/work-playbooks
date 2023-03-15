@@ -18,8 +18,7 @@
         - golang_vsn.stdout is defined
 
     - name: Install golang
-      become: yes
-      become_user: root
+      become: true
       unarchive:
         src: '{{ golang_url }}'
         dest: /usr/lib

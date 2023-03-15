@@ -7,8 +7,7 @@
 
   tasks:
     - name: Install keepassxc
-      become: yes
-      become_user: root
+      become: true
       apt:
         name: keepassxc
         state: latest

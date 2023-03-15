@@ -5,8 +5,7 @@
 
   tasks:
     - name: Install ffmpeg
-      become: yes
-      become_user: root
+      become: true
       apt:
         name:
           - libavcodec58

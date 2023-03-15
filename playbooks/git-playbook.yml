@@ -5,16 +5,14 @@
 
   tasks:
     - name: Install git
-      become: yes
-      become_user: root
+      become: true
       apt:
         name: git
         state: latest
         update_cache: no
 
     - name: Install git crypt
-      become: yes
-      become_user: root
+      become: true
       apt:
         name: git-crypt
         state: latest
