@@ -9,9 +9,7 @@
         - curl
         - gnupg2
         - software-properties-common
-        - python3-pip
         - gnupg-agent
-        - python3-setuptools
     state: latest
     update_cache: no
 
@@ -28,10 +26,6 @@
     name: docker
     state: started
     enabled: true
-
-- name: Install Docker Module for Python
-  pip:
-    name: docker
 
 - name: Create docker group
   become: yes
@@ -54,3 +48,6 @@
     owner: '{{ ansible_user_id }}'
     mode: g+rwx
     recurse: yes
+
+- name: Active the changes to groups
+  shell: newgrp docker
