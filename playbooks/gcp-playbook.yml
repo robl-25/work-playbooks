@@ -20,6 +20,3 @@
         gpg_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
         gpg_key_name: cloud.google.gpg
         repository: https://packages.cloud.google.com/apt cloud-sdk main
-
-    - name: Init GClout
-      shell: gcloud init
