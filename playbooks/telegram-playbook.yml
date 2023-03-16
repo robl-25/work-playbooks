@@ -1,0 +1,12 @@
+---
+- name: playbook to install telegram
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install telegram
+      become: true
+      apt:
+        name: telegram-desktop
+        state: latest
+        update_cache: no

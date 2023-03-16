@@ -92,6 +92,9 @@
 - name: Install steam
   import_playbook: playbooks/steam-playbook.yml
 
+- name: Add bash telegram
+  import_playbook: playbooks/telegram-playbook.yml
+
 - name: Install terraform
   import_playbook: playbooks/terraform-playbook.yml
 
