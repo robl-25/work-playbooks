@@ -11,7 +11,7 @@
 
     - name: Create shortcuts
       command: 'xfconf-query -c xfce4-keyboard-shortcuts -p {{ item.command }} -n -t string -s {{ item.action }}'
-      loop: '{{ shortcuts }}'
+      loop: '{{ shortcuts | default(default_shortcuts) }}'
       when:
         - desktop_env in 'xfce'
 

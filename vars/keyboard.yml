@@ -1,5 +1,5 @@
 ---
-shortcuts:
+default_shortcuts:
   - { command: /commands/custom/<Primary><Alt>t, action: xfce4-terminal }
   - { command: /xfwm4/custom/<Super>Down, action: tile_down_key }
   - { command: /xfwm4/custom/<Super>Left, action: tile_left_key }
