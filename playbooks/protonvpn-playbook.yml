@@ -6,10 +6,17 @@
     - ../vars/protonvpn.yml
 
   tasks:
+    - name: Check if proton is available
+      command: protonvpn -h
+      register: result
+      check_mode: false
+      changed_when: false
+
     - name: Download setup package
       become: true
       apt:
         deb: '{{ setup_url }}'
+      when: "'command not found' in result.stdout"
 
     - name: Update repositories
       become: true

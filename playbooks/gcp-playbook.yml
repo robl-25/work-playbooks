@@ -8,15 +8,15 @@
       become: true
       apt:
         name:
-          - apt-transport-https 
-          - ca-certificates 
+          - apt-transport-https
+          - ca-certificates
           - gnupg
         state: latest
         update_cache: no
-    
+
     - include_tasks: ../common/install-package-from-third-party.yml
       vars:
         package: google-cloud-cli
         gpg_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        gpg_key_name: cloud.google.gpg
+        gpg_key_name: cloud.google.asc
         repository: https://packages.cloud.google.com/apt cloud-sdk main
