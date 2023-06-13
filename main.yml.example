@@ -72,7 +72,7 @@
   import_playbook: playbooks/postman-playbook.yml
 
 - name: Install protonvpn
-  import_playbook: playbooks/atom-playbook.yml
+  import_playbook: playbooks/protonvpn-playbook.yml
 
 - name: Install pulumi
   import_playbook: playbooks/pulumi-playbook.yml
@@ -103,6 +103,9 @@
 
 - name: Install vlc
   import_playbook: playbooks/vlc-playbook.yml
+
+- name: Install VSCodium
+  import_playbook: playbooks/vscodium-playbook.yml
 
 - name: Configure xfce4-panel
   import_playbook: playbooks/xfce4-panel-playbook.yml
