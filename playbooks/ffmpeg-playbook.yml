@@ -8,7 +8,6 @@
       become: true
       apt:
         name:
-          - libavcodec58
           - ffmpeg
         state: latest
         update_cache: no
