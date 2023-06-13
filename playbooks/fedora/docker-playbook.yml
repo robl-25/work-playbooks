@@ -12,10 +12,9 @@
     state: started
     enabled: true
 
-- name: Install Docker Module for Python
-  pip:
-    name: docker
-    extra_args: --break-system-packages
+- include_tasks: ../../common/install-pip-package.yml
+  vars:
+    package: docker
 
 - name: Create docker group
   become: true

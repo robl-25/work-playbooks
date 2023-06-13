@@ -1,0 +1,27 @@
+---
+- name: Check pip version
+  command: pip -V
+  register: pip_version
+
+- set_fact:
+    current_pip_version: "{{ pip_version | regex_search('(\\d+(\\.\\d+)+)') }}"
+  when:
+    - pip_version is defined
+
+- set_fact:
+    extra_args: --break-system-packages
+  when:
+    - current_pip_version is defined
+    - current_pip_version is version('23.0.1', '>=')
+
+- set_fact:
+    extra_args: ''
+  when: >
+    current_pip_version is not defined
+    or current_pip_version is version('23.0.1', '<')
+
+- name: Install package
+  pip:
+    name: '{{ package }}'
+    state: latest
+    extra_args: '{{ extra_args }}'

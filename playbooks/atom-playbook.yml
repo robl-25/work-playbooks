@@ -30,13 +30,11 @@
         arch: amd64
         filename: atom
 
-    - name: Install packages dependencies
-      pip:
-        name: python-language-server[all]
-        state: latest
-        extra_args: --break-system-packages
+    - include_tasks: ../common/install-pip-package.yml
+      vars:
+        package: python-language-server[all]
 
-    - name: install packages
+    - name: install atom extensions
       become: true
       become_user: '{{ ansible_user_id }}'
       shell: |

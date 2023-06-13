@@ -6,8 +6,6 @@
     - ../vars/awscli.yml
 
   tasks:
-    - name: installation | ensure awscli is installed
-      become: true
-      pip:
-        name: awscli
-        extra_args: --break-system-packages
+    - include_tasks: ../../common/install-pip-package.yml
+      vars:
+        package: awscli
