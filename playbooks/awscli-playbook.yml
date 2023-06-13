@@ -10,3 +10,4 @@
       become: true
       pip:
         name: awscli
+        extra_args: --break-system-packages

@@ -12,6 +12,7 @@
   become: true
   pip:
     name: thefuck
+    extra_args: --break-system-packages
 
 - name: Check if exist bash aliass
   command: 'grep -F "thefuck" {{ bashrc_path }}'
