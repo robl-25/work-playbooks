@@ -11,12 +11,15 @@
       register: result
       check_mode: false
       changed_when: false
+      failed_when: false
 
     - name: Download setup package
       become: true
       apt:
         deb: '{{ setup_url }}'
-      when: "'command not found' in result.stdout"
+      when: >
+        'command not found' in result.stdout
+        or 'not such file or directory' in result.stdout
 
     - name: Update repositories
       become: true
