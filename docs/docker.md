@@ -16,3 +16,4 @@ permissions to current user.
 - ansible_python_interpreter: explicitly uses python3 as interpreter. (More information)[https://docs.ansible.com/ansible/latest/reference_appendices/python_3_support.html#using-python-3-on-the-managed-machines-with-commands-and-playbooks]
 - repository: stable docker repository
 - gpg_key: url for gpg key to be added using `apt_key`.
+- debian_stable_codename: If docker is been installed on a testing or unstable Debian system, define this variable with lastest Debian stable codename. It can be used to install docker from other Debian versions, except unstable or testing.

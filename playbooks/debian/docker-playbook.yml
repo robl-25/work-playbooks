@@ -12,11 +12,24 @@
     state: latest
     update_cache: no
 
+- name: Set codename if defined
+  set_fact:
+    codename: '{{ latest_debian_stable_codename }}'
+  when: latest_debian_stable_codename is defined
+
+- name: Set codename if not defined
+  set_fact:
+    codename: '{{ ansible_distribution_release }}'
+  when: latest_debian_stable_codename is not defined
+
 - include_tasks: ../common/install-package-from-third-party.yml
   vars:
+    gpg_key: https://download.docker.com/linux/debian/gpg
+    repository: https://download.docker.com/linux/debian {{ codename }} stable
     package: docker-ce
     gpg_key_name: docker-keyring.asc
     arch: amd64
+    filename: docker
 
 - name: Run and enable docker
   become: true
