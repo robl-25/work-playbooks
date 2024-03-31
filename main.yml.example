@@ -44,6 +44,9 @@
 - name: Install golang
   import_playbook: playbooks/golang-playbook.yml
 
+- name: Install Google Chrome
+  import_playbook: playbooks/google-chrome-playbook.yml
+
 - name: Install helm
   import_playbook: playbooks/helm-playbook.yml
 

@@ -1,0 +1,13 @@
+---
+- name: playbook to install Google Chrome
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        gpg_key: https://dl.google.com/linux/linux_signing_key.pub
+        repository: http://dl.google.com/linux/chrome/deb/ stable main
+        package: google-chrome-stable
+        gpg_key_name: google-chrome-keyring.asc
+        filename: google-chrome
