@@ -14,13 +14,13 @@
 
 - name: Set codename if defined
   set_fact:
-    codename: '{{ latest_debian_stable_codename }}'
-  when: latest_debian_stable_codename is defined
+    codename: '{{ debian_stable_codename }}'
+  when: debian_stable_codename is defined
 
 - name: Set codename if not defined
   set_fact:
     codename: '{{ ansible_distribution_release }}'
-  when: latest_debian_stable_codename is not defined
+  when: debian_stable_codename is not defined
 
 - include_tasks: ../common/install-package-from-third-party.yml
   vars:
