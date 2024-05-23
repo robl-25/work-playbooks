@@ -6,10 +6,20 @@
     - ../vars/keepassxc.yml
 
   tasks:
+    - name: Set package if defined
+      set_fact:
+        package: '{{ package_name }}'
+      when: package_name is defined
+
+    - name: Set package if not defined
+      set_fact:
+        package: 'keepassxc-full'
+      when: package_name is not defined
+
     - name: Install keepassxc
       become: true
       apt:
-        name: keepassxc
+        name: '{{ package }}'
         state: latest
         update_cache: no
 

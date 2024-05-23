@@ -2,9 +2,4 @@
 ansible_python_interpreter: /usr/bin/python3
 gpg_key: https://syncthing.net/release-key.gpg
 sync_repository: "https://apt.syncthing.net/ syncthing stable"
-github_url: https://github.com/keepassxreboot/keepassxc/releases/download
-platform: x86_64
-package: keepassxc
 repository: keepassxreboot/keepassxc
-github_package_name: 'KeePassXC-{{ latest_version }}-{{ platform }}.AppImage'
-download_url: '{{ github_url }}/{{ latest_version }}/{{ github_package_name }}'
