@@ -7,7 +7,7 @@
 
   tasks:
     - name: Check if proton is available
-      command: protonvpn -h
+      shell: protonvpn -h
       register: result
       check_mode: false
       changed_when: false
