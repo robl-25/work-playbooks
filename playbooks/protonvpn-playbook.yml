@@ -18,8 +18,9 @@
       apt:
         deb: '{{ setup_url }}'
       when: >
-        'command not found' in result.stdout
-        or 'not such file or directory' in result.stdout
+        result.stderr is search('command not found')
+        or result.stderr is search('not such file or directory')
+        or result.stderr is search('protonvpn: not found')
 
     - name: Update repositories
       become: true
