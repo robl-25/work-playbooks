@@ -1,0 +1,38 @@
+---
+- name: playbook to install protonvpn
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Install systemd-timesyncd
+      become: true
+      apt:
+        name: systemd-timesyncd
+        state: latest
+        update_cache: false
+      notify: enable_prometheus
+
+    - name: Install node_exporter
+      become: true
+      apt:
+        name: prometheus-node-exporter
+        state: latest
+        update_cache: false
+      notify: enable_prometheus
+
+    - name: Bind prometheus-node-exporter to local IP
+      become: true
+      replace:
+        path: /etc/default/prometheus-node-exporter
+        regexp: 'ARGS=""'
+        replace: 'ARGS="--web.listen-address={{ host_ip }}:9100"'
+      notify: enable_prometheus
+
+  handlers:
+    - name: Enable prometheus-node-exporter
+      become: true
+      systemd_service:
+        name: prometheus-node-exporter
+        enabled: true
+        state: restarted
+      listen: enable_prometheus

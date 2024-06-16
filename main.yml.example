@@ -68,6 +68,11 @@
 - name: Install Ngrok
   import_playbook: playbooks/ngrok-playbook.yml
 
+- name: Install Node Exporter
+  import_playbook: playbooks/node-exporter-playbook.yml
+  vars:
+    host_ip: <YOUR_IP>
+
 - name: Install nodejs
   import_playbook: playbooks/nodejs-playbook.yml
 
