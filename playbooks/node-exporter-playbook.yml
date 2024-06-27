@@ -20,13 +20,33 @@
         update_cache: false
       notify: enable_prometheus
 
+    - name: Set ip if defined
+      set_fact:
+        ip: '{{ host_ip }}'
+      when: host_ip is defined
+
+    - name: Set ip if not defined
+      set_fact:
+        ip: '{{ inventory_hostname }}'
+      when: host_ip is not defined
+
     - name: Bind prometheus-node-exporter to local IP
       become: true
       replace:
         path: /etc/default/prometheus-node-exporter
         regexp: 'ARGS=""'
-        replace: 'ARGS="--web.listen-address={{ host_ip }}:9100"'
+        replace: 'ARGS="--web.listen-address={{ ip }}:9100"'
       notify: enable_prometheus
+
+    - name: Add sleep before prometheus-node-exporter startup
+      become: true
+      replace:
+        path: /lib/systemd/system/prometheus-node-exporter.service
+        regexp: 'EnvironmentFile=/etc/default/prometheus-node-exporter\nExecStart=/usr/bin/prometheus-node-exporter \$ARGS'
+        replace: 'EnvironmentFile=/etc/default/prometheus-node-exporter\nExecStartPre=sleep 60\nExecStart=/usr/bin/prometheus-node-exporter $ARGS'
+      notify:
+        - enable_prometheus
+        - reload_systemd
 
   handlers:
     - name: Enable prometheus-node-exporter
@@ -36,3 +56,9 @@
         enabled: true
         state: restarted
       listen: enable_prometheus
+
+    - name: Reload systemctl daemon
+      become: true
+      systemd_service:
+        daemon_reload: true
+      listen: reload_systemd
