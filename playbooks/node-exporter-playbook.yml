@@ -48,6 +48,25 @@
         - enable_prometheus
         - reload_systemd
 
+    - name: Get all systemctl services
+      systemd_service:
+        name: firewalld
+      register: firewall_status
+
+    - name: Get firewall open ports if running
+      become: true
+      shell: firewall-cmd --list-ports
+      register: opened_ports
+      failed_when: false
+
+    - name: Enable node-exporter port if firewall running
+      become: true
+      shell: firewall-cmd --permanent --zone=public --add-port=9100/tcp
+      when: |
+        firewall_status.status.ActiveState == "active" and
+        "9100/tcp" not in opened_ports.stdout
+      notify: open_firewall_port
+
   handlers:
     - name: Enable prometheus-node-exporter
       become: true
@@ -62,3 +81,11 @@
       systemd_service:
         daemon_reload: true
       listen: reload_systemd
+
+    - name: Enable prometheus-node-exporter
+      become: true
+      systemd_service:
+        name: firewalld
+        enabled: true
+        state: restarted
+      listen: open_firewall_port
