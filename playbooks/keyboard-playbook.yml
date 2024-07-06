@@ -15,6 +15,13 @@
       when:
         - desktop_env in 'xfce'
 
+    - name: Remove duplicate shortcuts
+      command: xfconf-query -c xfce4-keyboard-shortcuts -p {{ item }}
+      loop: '{{ shortcuts | default(default_removable_shortcuts) }}'
+      failed_when: false
+      when:
+        - desktop_env in 'xfce'
+
     - name: Change keyboard layout
       command: 'xfconf-query -c keyboard-layout -p {{ item.conf }} -n -t string -s {{ item.value }}'
       loop: '{{ layout_configs }}'
