@@ -6,6 +6,12 @@ default_shortcuts:
   - { command: /xfwm4/custom/<Super>Right, action: tile_right_key }
   - { command: /xfwm4/custom/<Super>Up, action: tile_up_key }
 
+default_removable_shortcuts:
+  - /xfwm4/custom/<Super>KP_Down
+  - /xfwm4/custom/<Super>KP_Left
+  - /xfwm4/custom/<Super>KP_Right
+  - /xfwm4/custom/<Super>KP_Up
+
 layout_configs:
   - { conf: /Default/XkbDisable, value: 'false' }
   - { conf: /Default/XkbLayout, value: ',intl' }
