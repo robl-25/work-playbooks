@@ -1,0 +1,14 @@
+---
+- name: playbook to install JOSM
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        gpg_key: https://josm.openstreetmap.de/josm-apt.key
+        repository: https://josm.openstreetmap.de/apt alldist universe
+        package: josm
+        gpg_key_name: josm-apt.gpg
+        arch: amd64
+        filename: josm
