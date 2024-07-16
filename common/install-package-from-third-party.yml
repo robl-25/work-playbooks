@@ -8,7 +8,7 @@
   get_url:
     url: '{{ gpg_key }}'
     dest: '/etc/apt/trusted.gpg.d/{{ gpg_key_name }}'
-  when: '"{{ package }}" not in ansible_facts.packages'
+  when: package not in ansible_facts.packages
 
 - name: Set arch if defined
   set_fact:
@@ -35,7 +35,7 @@
     repo: 'deb [{{arch_var}} signed-by=/etc/apt/trusted.gpg.d/{{ gpg_key_name }}] {{ repository }}'
     state: present
     filename: '{{ filename_var }}'
-  when: '"{{ package }}" not in ansible_facts.packages'
+  when: package not in ansible_facts.packages
 
 - name: Update apt and install package
   become: true
