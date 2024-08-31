@@ -20,7 +20,7 @@
       when: >
         result.stderr is search('command not found')
         or result.stderr is search('No such file or directory')
-        or result.stderr is search('protonvpn: not found')
+        or result.stderr is search('not found')
 
     - name: Update repositories
       become: true
