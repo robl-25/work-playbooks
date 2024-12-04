@@ -73,6 +73,11 @@
         asdf_plugins is not defined
         or asdf_plugins is not search('ruby')
 
+    - name: Update ruby plugin
+      shell: '{{ asdf_binary }} plugin update ruby'
+      args:
+        executable: /bin/bash
+
     - name: Install latest as global
       shell: '{{ asdf_binary }} install ruby latest'
       args:
