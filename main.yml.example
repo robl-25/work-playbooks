@@ -11,6 +11,9 @@
 - name: Add bash theme
   import_playbook: playbooks/bash-theme-playbook.yml
 
+- name: Install calibre
+  import_playbook: playbooks/calibre-playbook.yml
+
 - name: Install crowdstrike
   import_playbook: playbooks/crowdstrike-playbook.yml
 
