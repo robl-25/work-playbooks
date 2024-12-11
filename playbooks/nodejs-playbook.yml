@@ -2,33 +2,104 @@
 - name: playbook to install nodejs
   hosts: localhost
   connection: local
+  vars_files:
+    - ../vars/nodejs.yml
 
   tasks:
-    - name: Install requirements
+    - name: Install dependencies
       become: true
       apt:
         name:
-          - apt-transport-https
-          - lsb-release
           - curl
-          - gnupg
+          - git
+          - libssl-dev
+          - libyaml-dev
         state: latest
         update_cache: no
 
-    - name: Download node install script
-      get_url:
-        url: https://deb.nodesource.com/setup_current.x
-        dest: /tmp
-        mode: 'u=rw,go=r'
+    - include_tasks: ../common/download-folder-from-github.yml
 
-    - name: Execute script
-      become: true
-      shell: bash /tmp/setup_current.x
+    - name: Check if exist bash aliass
+      command: 'grep -F "asdf" {{ bashrc_path }}'
+      register: asdf_alias
+      changed_when: false
+      failed_when: false
+      check_mode: no
 
-    - name: Install nodejs and npm
-      become: true
-      apt:
-        name:
-          - nodejs
-        state: latest
-        update_cache: no
+    - set_fact:
+        asdf_current_alias: '{{ asdf_alias.stdout }}'
+      when:
+        - asdf_alias.stdout is defined
+
+    - name: Add asdf alias
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ asdf_command }}'
+      when:
+        - asdf_current_alias != asdf_command
+
+    - name: Check if exist bash alias completions
+      command: 'grep -F "asdf/completions" {{ bashrc_path }}'
+      register: asdf_alias
+      changed_when: false
+      failed_when: false
+      check_mode: no
+
+    - set_fact:
+        asdf_current_alias: '{{ asdf_alias.stdout }}'
+      when:
+        - asdf_alias.stdout is defined
+
+    - name: Add asdf completions alias
+      lineinfile:
+        path: '{{ bashrc_path }}'
+        line: '{{ asdf_command }}'
+      when:
+        - asdf_current_alias != asdf_command
+
+    - name: Source bashrc
+      shell: 'source {{ bashrc_path }}'
+      args:
+        executable: /bin/bash
+
+    - name: Add nodejs plugin
+      shell: '{{ asdf_binary }} plugin add nodejs {{ nodejs_plugin_url }}'
+      args:
+        executable: /bin/bash
+      when: >
+        asdf_plugins is not defined
+        or asdf_plugins is not search('nodejs')
+
+    - name: Update nodejs plugin
+      shell: '{{ asdf_binary }} plugin update nodejs'
+      args:
+        executable: /bin/bash
+
+    - name: Install latest
+      shell: '{{ asdf_binary }} install nodejs latest'
+      args:
+        executable: /bin/bash
+
+    - name: Set nodejs latest as global
+      shell: '{{ asdf_binary }} global nodejs latest'
+      args:
+        executable: /bin/bash
+    
+    # Install Yarn
+    - name: Add yarn plugin
+      shell: '{{ asdf_binary }} plugin-add yarn'
+      args:
+        executable: /bin/bash
+      when: >
+        asdf_plugins is not defined
+        or asdf_plugins is not search('yarn')
+
+    - name: Update yarn plugin
+      shell: '{{ asdf_binary }} plugin update yarn'
+      args:
+        executable: /bin/bash
+
+    - name: Install latest as global
+      shell: '{{ asdf_binary }} install yarn latest'
+      args:
+        executable: /bin/bash
