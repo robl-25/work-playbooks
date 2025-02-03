@@ -4,23 +4,9 @@
   connection: local
 
   tasks:
-    - name: Install dependencies
+    - name: Install Steam installer
       become: true
       apt:
-        name:
-          - software-properties-common
-          - apt-transport-https
-          - dirmngr
-          - ca-certificates
-          - curl
-        update_cache: no
-        state: latest
-
-    - name: Install Steam
-      become: true
-      apt:
-        name: 
-          - steam-installer
-          - steam-devices
+        deb: https://cdn.fastly.steamstatic.com/client/installer/steam.deb
         update_cache: yes
-        state: latest
+        install_recommends: yes
