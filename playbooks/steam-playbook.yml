@@ -4,9 +4,23 @@
   connection: local
 
   tasks:
-    - name: Install Steam installer
+    - name: Install dependencies
       become: true
       apt:
-        deb: https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb
+        name:
+          - software-properties-common
+          - apt-transport-https
+          - dirmngr
+          - ca-certificates
+          - curl
+        update_cache: no
+        state: latest
+
+    - name: Install Steam
+      become: true
+      apt:
+        name: 
+          - steam-installer
+          - steam-devices
         update_cache: yes
-        install_recommends: yes
+        state: latest
