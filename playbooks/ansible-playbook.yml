@@ -1,0 +1,10 @@
+---
+- name: playbook to upgrade ansible
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Upgrade ansible
+      pip:
+        name: ansible
+        state: latest

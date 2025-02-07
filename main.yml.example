@@ -1,4 +1,7 @@
 ---
+- name: Upgrade ansible
+  import_playbook: playbooks/ansible-playbook.yml
+
 - name: Install arandr
   import_playbook: playbooks/arandr-playbook.yml
 
