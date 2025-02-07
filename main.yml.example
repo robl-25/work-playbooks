@@ -5,9 +5,6 @@
 - name: Install arandr
   import_playbook: playbooks/arandr-playbook.yml
 
-- name: Install atom
-  import_playbook: playbooks/atom-playbook.yml
-
 - name: Install awscli
   import_playbook: playbooks/awscli-playbook.yml
 

@@ -1,8 +1,0 @@
----
-default_atom_packages:
-  - atom-ide-ui
-  - busy-signal
-  - git-blame
-  - intentions
-  - linter-eslint
-  - linter-ui-default

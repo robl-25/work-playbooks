@@ -13,7 +13,6 @@ To run use `ansible-playbook main.yml -e ansible_become_password=<YOUR_ROOT_PASS
 
 Playbooks documentation:
 - [arandr](docs/arandr.md)
-- [atom](docs/atom.md)
 - [awscli](docs/awscli.md)
 - [crowdstrike](docs/crowdstrike.md)
 - [discord](docs/discord.md)
