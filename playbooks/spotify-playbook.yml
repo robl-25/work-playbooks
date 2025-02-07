@@ -2,26 +2,12 @@
 - name: playbook to install spotify
   hosts: localhost
   connection: local
-  vars_files:
-    - ../vars/spotify.yml
 
   tasks:
-    - name: Add package GPG apt key
-      become: true
-      apt_key:
-        url: "{{ gpg_key }}"
-        state: present
-
-    - name: Add repository
-      become: true
-      apt_repository:
-        repo: "{{ repository }}"
-        state: present
-        update_cache: yes
-
-    - name: Install client
-      become: true
-      apt:
-        name: spotify-client
-        state: latest
-        update_cache: no
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        package: spotify-client
+        gpg_key: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
+        repository_url: http://repository.spotify.com
+        suites: stable
+        components: non-free

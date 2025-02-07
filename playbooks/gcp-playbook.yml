@@ -18,5 +18,6 @@
       vars:
         package: google-cloud-cli
         gpg_key: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        gpg_key_name: cloud.google.asc
-        repository: https://packages.cloud.google.com/apt cloud-sdk main
+        repository_url: https://packages.cloud.google.com/apt
+        suites: cloud-sdk
+        components: main

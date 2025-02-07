@@ -1,3 +1,0 @@
----
-gpg_key: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
-repository: deb http://repository.spotify.com stable non-free

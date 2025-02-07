@@ -3,43 +3,25 @@
   package_facts:
     manager: apt
 
-- name: Add GPG apt key
-  become: true
-  get_url:
-    url: '{{ gpg_key }}'
-    dest: '/etc/apt/trusted.gpg.d/{{ gpg_key_name }}'
-  when: package not in ansible_facts.packages
-
 - name: Set arch if defined
   set_fact:
-    arch_var: 'arch={{ arch }}'
+    arch_var: '{{ arch }}'
   when: arch is defined
 
 - name: Set arch if not defined
   set_fact:
-    arch_var: ''
+    arch_var: 'amd64'
   when: arch is not defined
 
-- name: Set filename if not defined
-  set_fact:
-    filename_var: '{{ package }}'
-  when: filename is not defined
-
-- set_fact:
-    filename_var: '{{ filename }}'
-  when: filename is defined
-
-- name: Add Repository
+- name: Add repo using key from URL
   become: true
-  apt_repository:
-    repo: 'deb [{{arch_var}} signed-by=/etc/apt/trusted.gpg.d/{{ gpg_key_name }}] {{ repository }}'
-    state: present
-    filename: '{{ filename_var }}'
-  when: package not in ansible_facts.packages
-
-- name: Update apt and install package
-  become: true
-  apt:
+  deb822_repository:
     name: '{{ package }}'
-    state: latest
-    update_cache: yes
+    types: deb
+    uris: '{{ repository_url }}'
+    suites: '{{ suites }}'
+    components: '{{ components }}'
+    architectures: '{{ arch_var }}'
+    signed_by: '{{ gpg_key }}'
+    state: present
+    enabled: true

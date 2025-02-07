@@ -29,18 +29,13 @@
       when:
         - kubectl_vsn.stdout is defined
 
-    - name: Add Kubernetes GPG apt key
-      become: true
-      apt_key:
-        url: '{{ kubernetes_apt_key }}'
-        state: present
-
-    - name: Add Kubernetes Repository
-      become: true
-      apt_repository:
-        repo: '{{ kubernetes_apt_repo }}'
-        state: present
-        update_cache: yes
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        gpg_key: '{{ kubernetes_key }}'
+        package: 'kubectl={{ kubectl_version | default(kubectl_default_version) }}'
+        repository_url: https://apt.kubernetes.io/
+        suites: kubernetes-xenial
+        components: main
 
     - name: Install or upgrade kubectl
       become: true

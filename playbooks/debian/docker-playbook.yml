@@ -25,11 +25,10 @@
 - include_tasks: ../common/install-package-from-third-party.yml
   vars:
     gpg_key: https://download.docker.com/linux/debian/gpg
-    repository: https://download.docker.com/linux/debian {{ codename }} stable
     package: docker-ce
-    gpg_key_name: docker-keyring.asc
-    arch: amd64
-    filename: docker
+    repository_url: https://download.docker.com/linux/debian
+    suites: '{{ codename }}'
+    components: stable
 
 - name: Run and enable docker
   become: true

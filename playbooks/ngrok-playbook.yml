@@ -6,7 +6,8 @@
   tasks:
     - include_tasks: ../common/install-package-from-third-party.yml
       vars:
-        gpg_key: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
-        gpg_key_name: ngrok.asc
         package: ngrok
-        repository: "https://ngrok-agent.s3.amazonaws.com buster main"
+        gpg_key: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
+        repository_url: https://ngrok-agent.s3.amazonaws.com
+        suites: buster
+        components: main

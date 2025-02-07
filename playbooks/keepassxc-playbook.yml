@@ -25,9 +25,11 @@
 
     - include_tasks: ../common/install-package-from-third-party.yml
       vars:
-        repository: '{{ sync_repository }}'
         package: syncthing
-        gpg_key_name: syncthing-archive-keyring.gpg
+        gpg_key: https://syncthing.net/release-key.gpg
+        repository_url: https://apt.syncthing.net/
+        suites: syncthing
+        components: stable
 
     - name: Create fi not exists autostart folder
       file:

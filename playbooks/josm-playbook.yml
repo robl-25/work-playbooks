@@ -6,9 +6,9 @@
   tasks:
     - include_tasks: ../common/install-package-from-third-party.yml
       vars:
-        gpg_key: https://josm.openstreetmap.de/josm-apt.key
-        repository: https://josm.openstreetmap.de/apt alldist universe
         package: josm
-        gpg_key_name: josm-apt.gpg
+        gpg_key: https://josm.openstreetmap.de/josm-apt.key
+        repository_url: https://josm.openstreetmap.de/apt
+        suites: alldist
+        components: universe
         arch: amd64
-        filename: josm
