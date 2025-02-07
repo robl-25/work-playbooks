@@ -1,0 +1,36 @@
+---
+- name: playbook to install proton pass
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Check if proton pass is installed
+      become: true
+      command: dpkg -s protonpass
+      register: check_installed_version
+      changed_when: false
+      failed_when: false
+
+    - set_fact:
+        installed_version: "{{ check_installed_version.stdout | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - check_installed_version.stdout is defined
+
+    - name: Download proton pass
+      get_url:
+        url: https://proton.me/download/PassDesktop/linux/x64/ProtonPass.deb
+        dest: /tmp/protonpass_amd64.deb
+
+    - name: Get latest version
+      become: true
+      command: 'dpkg-deb -f /tmp/protonpass_amd64.deb Version'
+      register: latest_version
+
+    - name: Install Proton Pass
+      become: true
+      apt:
+        deb: /tmp/protonpass_amd64.deb
+      when: >
+        installed_version is not defined
+        or installed_version == ''
+        or installed_version is version(latest_version.stdout, '<')

@@ -82,6 +82,9 @@
 - name: Install postman
   import_playbook: playbooks/postman-playbook.yml
 
+- name: Install Proton Pass
+  import_playbook: playbooks/protonpass-playbook.yml
+
 - name: Install protonvpn
   import_playbook: playbooks/protonvpn-playbook.yml
 
