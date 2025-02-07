@@ -4,9 +4,18 @@
   connection: local
 
   tasks:
+    - name: Check if steam is installed
+      command: steamdeps -h
+      register: steam_var
+      failed_when: false
+      check_mode: false
+
     - name: Install Steam installer
       become: true
       apt:
         deb: https://cdn.fastly.steamstatic.com/client/installer/steam.deb
         update_cache: yes
         install_recommends: yes
+      when:
+        steam_var.stdout is not defined
+        or "not found" in steam_var.stdout
