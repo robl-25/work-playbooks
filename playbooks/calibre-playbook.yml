@@ -4,12 +4,8 @@
   connection: local
 
   tasks:
-    - name: Download calibre script
-      get_url:
-        url: https://download.calibre-ebook.com/linux-installer.sh
-        dest: /tmp/calibre_installer.sh
-        mode: 'u=rw,go=r'
-
-    - name: Execute installer
+    - name: Install calibre
       become: true
-      script: /tmp/calibre_installer.sh
+      apt:
+        name: calibre
+        state: latest
