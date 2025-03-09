@@ -25,3 +25,10 @@
     signed_by: '{{ gpg_key }}'
     state: present
     enabled: true
+
+- name: Install package
+  become: true
+  apt:
+    name: '{{ package }}'
+    state: latest
+    update_cache: yes

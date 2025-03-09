@@ -1,0 +1,25 @@
+---
+- name: playbook to install lutris
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        package: lutris
+        gpg_key: https://download.opensuse.org/repositories/home:/strycore/Debian_12/Release.key
+        repository_url: https://download.opensuse.org/repositories/home:/strycore/Debian_12/
+        suites: ./
+        components: ''
+
+    - name: Install Wine
+      become: true
+      apt:
+        name:
+         - wine64
+         - libasound2-plugins:i386
+         - libsdl2-2.0-0:i386
+         - libdbus-1-3:i386
+         - libsqlite3-0:i386
+        state: latest
+        update_cache: no
