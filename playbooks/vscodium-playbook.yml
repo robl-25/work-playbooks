@@ -8,7 +8,7 @@
       vars:
         package: codium
         gpg_key: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
-        repository_url: https://download.vscodium.com/debs
+        repository_url: https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs
         suites: vscodium
         components: main
 
