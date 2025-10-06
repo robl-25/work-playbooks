@@ -4,9 +4,39 @@
   connection: local
 
   tasks:
-    - name: Install telegram
+    - name: Create telegram dir
+      file:
+        path: /home/{{ ansible_user_id }}/.telegram
+        state: directory
+
+    - name: Check if telegram is installed
+      stat:
+        path: /usr/local/bin/telegram
+      register: telegram_stats
+
+    - name: Extract telegram
+      unarchive:
+        src: https://telegram.org/dl/desktop/linux
+        dest: /tmp
+        remote_src: true
+      when: not telegram_stats.stat.exists
+
+    - name: Copy files
+      copy:
+        src: /tmp/Telegram/
+        dest: /home/{{ ansible_user_id }}/.telegram
+      when: not telegram_stats.stat.exists
+
+    - name: Fix telegram permissions
+      file:
+        path: /home/{{ ansible_user_id }}/.telegram
+        recurse: yes
+        mode: '0755'
+    
+    - name: Create symbolic link
       become: true
-      apt:
-        name: telegram-desktop
-        state: latest
-        update_cache: no
+      file:
+        src: /home/{{ ansible_user_id }}/.telegram/Telegram
+        dest: /usr/local/bin/telegram
+        state: link
+        mode: '0755'
