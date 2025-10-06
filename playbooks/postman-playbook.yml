@@ -6,38 +6,35 @@
     - ../vars/postman.yml
 
   tasks:
+    - name: Check if postman is installed
+      stat:
+        path: /usr/local/bin/postman
+      register: postman_stats
+
     - name: Download postman
       get_url:
         url: '{{ mirror }}'
         dest: '{{ download_dir }}/{{ download_filename }}'
         mode: 'u=rw,go=r'
+      when: not postman_stats.stat.exists
 
     - name: Create download directory installation
       file:
-        state: '{{ item }}'
         dest: '{{ local_dir }}'
-      with_items:
-        - absent
-        - directory
+        state: directory
 
     - name: Extract postman files
       unarchive:
         remote_src: yes
         src: '{{ download_dir }}/{{ download_filename }}'
         dest: '{{ download_dir }}'
+      when: not postman_stats.stat.exists
 
     - name: Copy files to local dir
       copy:
-        remote_src: yes
         src: '{{ download_dir }}/Postman/'
         dest: '{{ local_dir }}'
-
-    - name: Copy files to local dir
-      copy:
-        remote_src: yes
-        src: '{{ item }}'
-        dest: '{{ local_dir }}'
-      with_fileglob: '{{ download_dir }}/Postman/*'
+      when: not postman_stats.stat.exists
 
     - name: Fix postman scripts permissions
       file:
@@ -51,3 +48,4 @@
         src: "{{ local_dir }}/app/Postman"
         dest: "/usr/local/bin/postman"
         state: link
+        mode: '0755'
