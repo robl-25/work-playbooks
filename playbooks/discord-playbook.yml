@@ -34,5 +34,6 @@
         deb: '{{ deb_path }}'
       when: >
         installed_version is not defined
+        or installed_version.stdout is not defined
         or installed_version == ''
         or installed_version is version(latest_version.stdout, '<')
