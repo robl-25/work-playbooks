@@ -25,3 +25,12 @@
       apt:
         deb: '{{ download_url }}'
     
+    - name: Create if not exists autostart folder
+      file:
+        path: /home/{{ ansible_user_id }}/.config/autostart
+        state: directory
+
+    - name: Add to startup
+      template:
+        src: ../templates/suwayomi.desktop.j2
+        dest: '/home/{{ ansible_user_id }}/.config/autostart/suwayomi-start.desktop'
