@@ -106,6 +106,9 @@
 - name: Install steam
   import_playbook: playbooks/steam-playbook.yml
 
+- name: Install suwayomi
+  import_playbook: playbooks/suwayomi-playbook.yml
+
 - name: Add bash telegram
   import_playbook: playbooks/telegram-playbook.yml
 

@@ -33,6 +33,7 @@
     mode: 'a+x'
     force: yes
   when: >
-    current_version is not defined
+    not current_version
+    or current_version is not defined
     or current_version == ""
     or current_version is version(latest_version, '<')

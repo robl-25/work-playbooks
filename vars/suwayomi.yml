@@ -1,0 +1,6 @@
+---
+repository: Suwayomi/Suwayomi-Server
+github_url: https://github.com/{{ repository }}
+github_package: 'Suwayomi-Server-v{{ latest_version }}-debian-all.deb'
+download_url: '{{ github_url }}/releases/download/v{{ latest_version }}/{{ github_package }}'
+package: suwayomi-server

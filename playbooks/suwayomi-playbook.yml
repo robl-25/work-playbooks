@@ -1,0 +1,27 @@
+---
+- name: playbook to install Suwayomi server and default UI
+  hosts: localhost
+  connection: local
+  vars_files:
+    - ../vars/suwayomi.yml
+
+  tasks:
+    - name: Get latest version
+      uri:
+        url: 'https://api.github.com/repos/{{ repository }}/releases/latest'
+        method: GET
+        return_content: yes
+        status_code: 200
+        body_format: json
+      register: result
+
+    - set_fact:
+        latest_version: "{{ result.json.name | regex_search('(\\d+(\\.\\d+)+)') }}"
+      when:
+        - result.json is defined
+
+    - name: Install or upgrade
+      become: yes
+      apt:
+        deb: '{{ download_url }}'
+    
