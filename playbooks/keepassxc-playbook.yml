@@ -31,7 +31,7 @@
         suites: syncthing
         components: stable
 
-    - name: Create fi not exists autostart folder
+    - name: Create if not exists autostart folder
       file:
         path: /home/{{ ansible_user_id }}/.config/autostart
         state: directory
