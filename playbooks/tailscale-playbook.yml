@@ -1,0 +1,22 @@
+---
+- name: playbook to install tailscale
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Set codename if defined
+      set_fact:
+        codename: '{{ debian_stable_codename }}'
+      when: debian_stable_codename is defined
+
+    - name: Set codename if not defined
+      set_fact:
+        codename: '{{ ansible_distribution_release }}'
+      when: debian_stable_codename is not defined
+
+    - include_tasks: ../common/install-package-from-third-party.yml
+      vars:
+        package: tailscale
+        repository_url: 'https://pkgs.tailscale.com/stable/debian'
+        gpg_key: 'https://pkgs.tailscale.com/stable/debian/{{ codename }}.noarmor.gpg'
+        suites: '{{ codename }}'
+        components: main
