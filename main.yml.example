@@ -106,6 +106,11 @@
 - name: Install steam
   import_playbook: playbooks/steam-playbook.yml
 
+- name: Install tailscale
+  import_playbook: playbooks/tailscale-playbook.yml
+  vars:
+    debian_stable_codename: bookworm
+
 - name: Install suwayomi
   import_playbook: playbooks/suwayomi-playbook.yml
 
