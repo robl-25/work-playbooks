@@ -20,3 +20,9 @@
         gpg_key: 'https://pkgs.tailscale.com/stable/debian/{{ codename }}.noarmor.gpg'
         suites: '{{ codename }}'
         components: main
+
+    - name: Set tailscale flags
+      become: true
+      shell: 'tailscale set {{ item }}'
+      loop: '{{ extras_flags }}'
+      when: extras_flags is defined
