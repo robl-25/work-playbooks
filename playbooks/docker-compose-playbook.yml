@@ -2,8 +2,6 @@
 - name: playbook to install docker-compose
   hosts: localhost
   connection: local
-  vars_files:
-    - ../vars/docker-compose.yml
 
   tasks:
     - include_tasks: debian/docker-compose-playbook.yml

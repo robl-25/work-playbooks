@@ -1,2 +1,7 @@
 ---
-- include_tasks: ../common/download-binary-from-github.yml
+- name: Install docker compose plugin
+  become: true
+  apt:
+    name: docker-compose-plugin
+    state: latest
+    update_cache: false
