@@ -6,7 +6,7 @@
   tasks:
     - name: Create telegram dir
       file:
-        path: /home/{{ ansible_user_id }}/.telegram
+        path: /home/{{ ansible_facts["user_id"] }}/.telegram
         state: directory
 
     - name: Check if telegram is installed
@@ -24,19 +24,19 @@
     - name: Copy files
       copy:
         src: /tmp/Telegram/
-        dest: /home/{{ ansible_user_id }}/.telegram
+        dest: /home/{{ ansible_facts["user_id"] }}/.telegram
       when: not telegram_stats.stat.exists
 
     - name: Fix telegram permissions
       file:
-        path: /home/{{ ansible_user_id }}/.telegram
+        path: /home/{{ ansible_facts["user_id"] }}/.telegram
         recurse: yes
         mode: '0755'
     
     - name: Create symbolic link
       become: true
       file:
-        src: /home/{{ ansible_user_id }}/.telegram/Telegram
+        src: /home/{{ ansible_facts["user_id"] }}/.telegram/Telegram
         dest: /usr/local/bin/telegram
         state: link
         mode: '0755'

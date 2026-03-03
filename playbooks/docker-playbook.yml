@@ -7,7 +7,7 @@
 
   tasks:
     - include_tasks: debian/docker-playbook.yml
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+      when: ansible_facts["distribution"] == 'Debian' or ansible_facts["distribution"] == 'Ubuntu'
 
     - include_tasks: fedora/docker-playbook.yml
-      when: ansible_distribution == 'Fedora'
+      when: ansible_facts["distribution"] == 'Fedora'

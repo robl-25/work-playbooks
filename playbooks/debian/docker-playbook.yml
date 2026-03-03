@@ -19,7 +19,7 @@
 
 - name: Set codename if not defined
   set_fact:
-    codename: '{{ ansible_distribution_release }}'
+    codename: '{{ ansible_facts["distribution_release"] }}'
   when: debian_stable_codename is not defined
 
 - include_tasks: ../common/install-package-from-third-party.yml
@@ -46,14 +46,14 @@
 - name: Add a current user to docker group
   become: true
   user:
-    name: '{{ ansible_user_id }}'
+    name: '{{ ansible_facts["user_id"] }}'
     groups: docker
     append: yes
 
 - name: Change docker directory ownership and permissions
   file:
-    dest: '/home/{{ ansible_user_id }}/.docker'
-    owner: '{{ ansible_user_id }}'
+    dest: '/home/{{ ansible_facts["user_id"] }}/.docker'
+    owner: '{{ ansible_facts["user_id"] }}'
     mode: g+rwx
     recurse: yes
 

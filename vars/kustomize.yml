@@ -1,5 +1,5 @@
 ---
-download_dir: '/home/{{ ansible_user_id }}/.kustomize'
+download_dir: '/home/{{ ansible_facts["user_id"] }}/.kustomize'
 os: 'linux'
 architecture: amd64
 redistribution_filename: 'kustomize_v{{ latest_version }}_{{ os }}_{{ architecture }}.tar.gz'
