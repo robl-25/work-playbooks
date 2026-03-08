@@ -1,5 +1,5 @@
 ---
-download_dir: '/home/{{ ansible_user_id }}/.istioctl'
+download_dir: '/home/{{ ansible_facts["user_id"] }}/.istioctl'
 os: 'linux'
 architecture: amd64
 mirror: 'https://github.com/istio/istio/releases/download/{{ latest_version }}'

@@ -25,8 +25,8 @@
 
     - name: Set CID
       become: true
-      command: '/opt/CrowdStrike/falconctl -s -f --cid={{ ansible_crowdstrike_cid }}'
-      when: ansible_crowdstrike_cid is defined
+      command: '/opt/CrowdStrike/falconctl -s -f --cid={{ ansible_facts["crowdstrike_cid"] }}'
+      when: ansible_facts["crowdstrike_cid"] is defined
 
     - name: Start service
       become: true

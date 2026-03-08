@@ -35,7 +35,7 @@
     - name: Configuring cron to reconnect VPN in cases where it disconnects
       become: true
       cron:
-        job: "{{ ansible_user_dir }}/.local/bin/__vpn_up"
+        job: "{{ ansible_facts["user_dir"] }}/.local/bin/__vpn_up"
         minute: "*/15"
         name: "reconnect vpn"
         state: present

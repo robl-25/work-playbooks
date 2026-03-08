@@ -25,13 +25,13 @@
 - name: Add a current user to docker group
   become: true
   user:
-    name: '{{ ansible_user_id }}'
+    name: '{{ ansible_facts["user_id"] }}'
     groups: docker
     append: yes
 
 - name: Change docker directory ownership and permissions
   file:
-    dest: '/home/{{ ansible_user_id }}/.docker'
-    owner: '{{ ansible_user_id }}'
+    dest: '/home/{{ ansible_facts["user_id"] }}/.docker'
+    owner: '{{ ansible_facts["user_id"] }}'
     mode: g+rwx
     recurse: yes
