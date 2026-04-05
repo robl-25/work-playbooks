@@ -30,6 +30,6 @@
     - name: Install protonvpn
       become: true
       apt:
-        name: protonvpn
+        name: proton-vpn-gtk-app
         state: latest
         update_cache: yes
